@@ -32,6 +32,7 @@ public class frmAdministrador extends javax.swing.JFrame {
         mitVehiculos = new javax.swing.JMenuItem();
         mitPromociones = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        mitReporteGenera = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mitSalir = new javax.swing.JMenuItem();
 
@@ -66,6 +67,15 @@ public class frmAdministrador extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Reportes");
+
+        mitReporteGenera.setText(" Reporte General");
+        mitReporteGenera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitReporteGeneraActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mitReporteGenera);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Salir");
@@ -129,6 +139,13 @@ public class frmAdministrador extends javax.swing.JFrame {
     ventanaPromo.setLocationRelativeTo(null);
     }//GEN-LAST:event_mitPromocionesActionPerformed
 
+    private void mitReporteGeneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitReporteGeneraActionPerformed
+        // TODO add your handling code here:
+        frmReportesAdmin reporte = new frmReportesAdmin();
+    reporte.setVisible(true);
+    reporte.setLocationRelativeTo(null);
+    }//GEN-LAST:event_mitReporteGeneraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -171,6 +188,7 @@ public class frmAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem mitEmpleados;
     private javax.swing.JMenuItem mitPromociones;
+    private javax.swing.JMenuItem mitReporteGenera;
     private javax.swing.JMenuItem mitSalir;
     private javax.swing.JMenuItem mitVehiculos;
     // End of variables declaration//GEN-END:variables

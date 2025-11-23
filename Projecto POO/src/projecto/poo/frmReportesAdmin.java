@@ -30,7 +30,7 @@ public class frmReportesAdmin extends javax.swing.JFrame {
         btnIngresos = new javax.swing.JButton();
         btnVendedores = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtResultado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,12 +42,22 @@ public class frmReportesAdmin extends javax.swing.JFrame {
         });
 
         btnIngresos.setText("Ingresos Totales");
+        btnIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresosActionPerformed(evt);
+            }
+        });
 
         btnVendedores.setText("Mejores Vendedores");
+        btnVendedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVendedoresActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtResultado.setColumns(20);
+        txtResultado.setRows(5);
+        jScrollPane1.setViewportView(txtResultado);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,8 +93,80 @@ public class frmReportesAdmin extends javax.swing.JFrame {
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
         // TODO add your handling code here:
+        // 1. Contadores
+    int disponibles = 0;
+    int vendidos = 0;
+    int reservados = 0;
+    
+    // 2. Recorrer la "Base de Datos" en memoria
+    Object[] autos = Principal.gestorVehiculos.listar();
+    int total = Principal.gestorVehiculos.cantidad();
+    
+    for(int i=0; i<total; i++) {
+        clases.Vehiculo v = (clases.Vehiculo) autos[i];
+        if(v.getEstado().equalsIgnoreCase("Disponible")) disponibles++;
+        else if(v.getEstado().equalsIgnoreCase("Vendido")) vendidos++;
+        else reservados++;
+    }
+    
+    // 3. Imprimir en el Área de Texto
+    txtResultado.setText(""); // Limpiar anterior
+    txtResultado.append("=== REPORTE DE STOCK DE VEHÍCULOS ===\n\n");
+    txtResultado.append("Total de Vehículos: " + total + "\n");
+    txtResultado.append("-----------------------------------\n");
+    txtResultado.append(" DISPONIBLES : " + disponibles + "\n");
+    txtResultado.append(" VENDIDOS    : " + vendidos + "\n");
+    txtResultado.append(" RESERVADOS  : " + reservados + "\n");
         
     }//GEN-LAST:event_btnStockActionPerformed
+
+    private void btnIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosActionPerformed
+        // TODO add your handling code here:
+        double sumaTotal = 0;
+    
+    // 1. Traer las ventas
+    Object[] ventas = Principal.gestorVentas.listar();
+    int cantidad = Principal.gestorVentas.cantidad();
+    
+    txtResultado.setText("");
+    txtResultado.append("=== REPORTE FINANCIERO ===\n\n");
+    
+    // 2. Recorrer y sumar
+    for(int i=0; i<cantidad; i++) {
+        clases.Venta venta = (clases.Venta) ventas[i];
+        // Asumiendo que Venta tiene getCotizacion() y Cotizacion tiene getMontoTotal()
+        double monto = venta.getCotizacion().getMontoTotal(); 
+        sumaTotal += monto;
+        
+        txtResultado.append(" Venta #" + (i+1) + ": $" + monto + "\n");
+    }
+    
+    txtResultado.append("-----------------------------------\n");
+    txtResultado.append(" INGRESOS TOTALES ACUMULADOS: $" + sumaTotal + "\n");
+    }//GEN-LAST:event_btnIngresosActionPerformed
+
+    private void btnVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendedoresActionPerformed
+        // TODO add your handling code here:
+        txtResultado.setText("");
+    txtResultado.append("=== RENDIMIENTO DE VENDEDORES ===\n\n");
+    
+    Object[] empleados = Principal.gestorEmpleados.listar();
+    int total = Principal.gestorEmpleados.cantidad();
+    
+    for(int i=0; i<total; i++) {
+        clases.Empleado e = (clases.Empleado) empleados[i];
+        
+        // Solo nos interesan los Vendedores, no los Admins
+        if (e instanceof clases.Vendedor) {
+            clases.Vendedor v = (clases.Vendedor) e;
+            // Necesitas haber creado un getter para ventasRealizadas en la clase Vendedor
+            // Si no lo tienes, créalo en clases/Vendedor.java: public int getVentasRealizadas() { return ventasRealizadas; }
+            txtResultado.append(" - " + v.getNombres() + " " + v.getApellidos() + "\n");
+            // Si tienes el contador en la clase:
+            // txtResultado.append("   Ventas: " + v.getVentasRealizadas() + "\n\n");
+        }
+    }
+    }//GEN-LAST:event_btnVendedoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,6 +208,6 @@ public class frmReportesAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnStock;
     private javax.swing.JButton btnVendedores;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtResultado;
     // End of variables declaration//GEN-END:variables
 }
