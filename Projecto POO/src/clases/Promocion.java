@@ -30,4 +30,7 @@ public class Promocion {
     }
     
     public String getNombre() { return nombre; }
+    public String getTipo() { return tipo; }
+    public double getValor() { return valor; }
+    public String getVigencia() { return vigencia; }
 }

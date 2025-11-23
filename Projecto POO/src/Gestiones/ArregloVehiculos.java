@@ -50,8 +50,38 @@ public class ArregloVehiculos implements Mantenimiento {
     }
 
     // Resto de métodos CRUD...
-    @Override public void eliminar(String codigo) {}
-    @Override public void modificar(Object obj) {}
+    @Override public void eliminar(String codigo) {// 1. Buscar la posición del vehículo
+        int pos = -1;
+        for(int i = 0; i < indice; i++) {
+            if(vehiculos[i].getCodigo().equals(codigo)) {
+                pos = i;
+                break;
+            }
+        }
+
+        // 2. Si lo encontramos, lo eliminamos
+        if(pos != -1) {
+            // Movemos todos los de la derecha una posición a la izquierda
+            for(int k = pos; k < indice - 1; k++) {
+                vehiculos[k] = vehiculos[k + 1];
+            }
+            // Borramos el último rastro y bajamos el contador
+            vehiculos[indice - 1] = null;
+            indice--;
+        }}
+    @Override public void modificar(Object obj) {
+        if(obj instanceof clases.Vehiculo) {
+        clases.Vehiculo vehiculoNuevo = (clases.Vehiculo) obj;
+        
+        // Buscamos el vehículo viejo por su código y lo reemplazamos
+        for(int i = 0; i < indice; i++) {
+            if(vehiculos[i].getCodigo().equals(vehiculoNuevo.getCodigo())) {
+                vehiculos[i] = vehiculoNuevo; // Actualizamos los datos
+                break;
+            }
+        }
+      }
+    }
     @Override public Object buscar(String codigo) {
         for(int i=0; i<indice; i++) if(vehiculos[i].getCodigo().equals(codigo)) return vehiculos[i];
         return null;

@@ -43,8 +43,37 @@ public class ArregloEmpleados implements Mantenimiento{
     }
     // Métodos obligatorios de la interfaz (Modificar, Eliminar, Buscar, Listar)...
     // Implementar lógica básica de arrays aquí (bucles for)
-    @Override public void eliminar(String dni) { /* ... */ }
-    @Override public void modificar(Object obj) { /* ... */ }
+    @Override public void eliminar(String dni) { 
+        // 1. Buscar la posición
+        int pos = -1;
+        for (int i = 0; i < indice; i++) {
+            if (empleados[i].getDni().equals(dni)) {
+                pos = i;
+                break;
+            }
+        }
+
+        // 2. Si existe, borrar y recorrer
+        if (pos != -1) {
+            for (int k = pos; k < indice - 1; k++) {
+                empleados[k] = empleados[k + 1]; // Mueve el de la derecha a la izquierda
+            }
+            empleados[indice - 1] = null; // Borra el último duplicado
+            indice--; // Baja el contador
+        }
+    }
+    @Override public void modificar(Object obj) {
+        if(obj instanceof clases.Empleado) {
+            clases.Empleado empNuevo = (clases.Empleado) obj;
+            // Buscamos por DNI y reemplazamos
+            for(int i = 0; i < indice; i++) {
+                if(empleados[i].getDni().equals(empNuevo.getDni())) {
+                    empleados[i] = empNuevo;
+                    break;
+                }
+            }
+        }
+    }
     @Override public Object buscar(String dni) { return null; }
     @Override public Object[] listar() { return empleados; }
     @Override public int cantidad() { return indice; }

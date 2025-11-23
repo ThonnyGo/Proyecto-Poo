@@ -70,7 +70,7 @@ package clases;
     }
 
     // Getters y Setters para cambiar estado (Req 5)
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setEstado(String NuevoEstado) { this.estado = NuevoEstado; }
     public String getEstado() { return estado; }
     public String getCodigo() { return codigo; }
     public double getPrecioBase() { return precioBase; }

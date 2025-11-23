@@ -29,8 +29,33 @@ public class ArregloClientes implements Mantenimiento {
     public Object[] listar() { return clientes; }
     
     // Resto de CRUD...
-    @Override public void eliminar(String dni) {}
-    @Override public void modificar(Object obj) {}
+    @Override public void eliminar(String dni) {
+        int pos = -1;
+        for(int i = 0; i < indice; i++) {
+            if(clientes[i].getDni().equals(dni)) {
+                pos = i;
+                break;
+            }
+        }
+        if(pos != -1) {
+            for(int k = pos; k < indice - 1; k++) {
+                clientes[k] = clientes[k + 1];
+            }
+            clientes[indice - 1] = null;
+            indice--;
+        }
+    }
+    @Override public void modificar(Object obj) {
+        if(obj instanceof clases.Cliente) {
+            clases.Cliente cliNuevo = (clases.Cliente) obj;
+            for(int i = 0; i < indice; i++) {
+                if(clientes[i].getDni().equals(cliNuevo.getDni())) {
+                    clientes[i] = cliNuevo;
+                    break;
+                }
+            }
+        }
+    }
     @Override public Object buscar(String dni) { 
          for(int i=0; i<indice; i++) if(clientes[i].getDni().equals(dni)) return clientes[i];
          return null;

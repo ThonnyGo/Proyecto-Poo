@@ -12,37 +12,84 @@ import java.util.Calendar;
  */
 public class Cotizacion {
     private String codigo;
-    private Cliente cliente;
-    private Vendedor vendedor;
-    private Vehiculo vehiculo;
-    private Promocion promocion; // Opcional
-    private double montoTotal;
+    private Cliente cliente;      // Dato Cliente (Req 4)
+    private Vendedor vendedor;    // Dato Vendedor (Req 4)
+    private Vehiculo vehiculo;    // Dato Vehículo (Req 4)
+    private Promocion promocion;  // Descuento (Req 4)
+    private double montoTotal;    // Monto Final (Req 4)
     private Calendar fecha;
 
-    public Cotizacion(String cod, Cliente cli, Vendedor ven, Vehiculo veh, Promocion promo) {
-        this.codigo = cod;
-        this.cliente = cli;
-        this.vendedor = ven;
-        this.vehiculo = veh;
-        this.promocion = promo;
+    public Cotizacion(String codigo, Cliente cliente, Vendedor vendedor, Vehiculo vehiculo, Promocion promocion) {
+        this.codigo = codigo;
+        this.cliente = cliente;
+        this.vendedor = vendedor;
+        this.vehiculo = vehiculo;
+        this.promocion = promocion;
         this.fecha = Calendar.getInstance();
-        this.montoTotal = calcularTotal();
-    }
-
-    private double calcularTotal() {
+        
+        // CÁLCULO DEL PRECIO FINAL
         double precio = vehiculo.getPrecioBase();
         if (promocion != null) {
+            // Si hay promo, restamos el descuento
             precio -= promocion.calcularDescuento(precio);
         }
-        return precio;
+        this.montoTotal = precio;
     }
 
-    // Getters para pasar a Venta (Req 5)
-    public Vehiculo getVehiculo() { return vehiculo; }
-    public double getMontoTotal() { return montoTotal; }
-    public Cliente getCliente() { return cliente; }
-    public Vendedor getVendedor() { return vendedor; }
-    public String getCodigo() { return codigo; }
-    public Promocion getPromocion() { return promocion; }
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public Promocion getPromocion() {
+        return promocion;
+    }
+
+    public void setPromocion(Promocion promocion) {
+        this.promocion = promocion;
+    }
+
+    public double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public Calendar getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
+    }
 }
 

@@ -23,8 +23,40 @@ public class ArregloPromociones implements Mantenimiento {
     @Override public void agregar(Object obj) { if(obj instanceof Promocion) promociones[indice++] = (Promocion) obj; }
     @Override public Object[] listar() { return promociones; }
     // Resto de CRUD vacío por brevedad...
-    @Override public void eliminar(String n) {}
-    @Override public void modificar(Object o) {}
-    @Override public Object buscar(String n) { return null; }
+    @Override public void eliminar(String nombre) {
+        int pos = -1;
+        for(int i = 0; i < indice; i++) {
+            if(promociones[i].getNombre().equals(nombre)) {
+                pos = i;
+                break;
+            }
+        }
+        if(pos != -1) {
+            for(int k = pos; k < indice - 1; k++) {
+                promociones[k] = promociones[k + 1];
+            }
+            promociones[indice - 1] = null;
+            indice--;
+        }
+    }
+    @Override public void modificar(Object obj) {
+        if(obj instanceof clases.Promocion) {
+            clases.Promocion promoNueva = (clases.Promocion) obj;
+            for(int i = 0; i < indice; i++) {
+                if(promociones[i].getNombre().equals(promoNueva.getNombre())) {
+                    promociones[i] = promoNueva;
+                    break;
+                }
+            }
+        }
+    }
+    @Override public Object buscar(String nombre) { 
+        for(int i = 0; i < indice; i++) {
+            if(promociones[i].getNombre().equals(nombre)) {
+                return promociones[i];
+            }
+        }
+        return null;
+    }
     @Override public int cantidad() { return indice; }
 }
