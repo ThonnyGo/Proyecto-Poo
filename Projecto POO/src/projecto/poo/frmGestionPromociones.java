@@ -40,7 +40,7 @@ public class frmGestionPromociones extends javax.swing.JFrame {
         tblPromociones = new javax.swing.JTable();
         btnLimpiar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nombre Promo:");
 

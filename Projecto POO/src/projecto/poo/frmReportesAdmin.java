@@ -32,7 +32,7 @@ public class frmReportesAdmin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultado = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnStock.setText("Estado de Vehículos");
         btnStock.addActionListener(new java.awt.event.ActionListener() {
