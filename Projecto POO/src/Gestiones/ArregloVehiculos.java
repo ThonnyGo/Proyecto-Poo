@@ -71,17 +71,18 @@ public class ArregloVehiculos implements Mantenimiento {
         }}
     @Override public void modificar(Object obj) {
         if(obj instanceof clases.Vehiculo) {
-        clases.Vehiculo vehiculoNuevo = (clases.Vehiculo) obj;
-        
-        // Buscamos el vehículo viejo por su código y lo reemplazamos
-        for(int i = 0; i < indice; i++) {
-            if(vehiculos[i].getCodigo().equals(vehiculoNuevo.getCodigo())) {
-                vehiculos[i] = vehiculoNuevo; // Actualizamos los datos
-                break;
+            clases.Vehiculo nuevoAuto = (clases.Vehiculo) obj;
+            
+            // Recorremos el arreglo para encontrar el auto original usando el CÓDIGO
+            for(int i = 0; i < indice; i++) {
+                // Si los códigos coinciden, este es el que debemos actualizar
+                if(vehiculos[i].getCodigo().equals(nuevoAuto.getCodigo())) {
+                    vehiculos[i] = nuevoAuto; // ¡AQUÍ OCURRE EL REEMPLAZO!
+                    break; // Ya lo encontramos, dejamos de buscar
+                }
             }
         }
       }
-    }
     @Override public Object buscar(String codigo) {
         for(int i=0; i<indice; i++) if(vehiculos[i].getCodigo().equals(codigo)) return vehiculos[i];
         return null;

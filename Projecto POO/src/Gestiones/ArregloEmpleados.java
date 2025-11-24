@@ -65,8 +65,7 @@ public class ArregloEmpleados implements Mantenimiento{
     @Override public void modificar(Object obj) {
         if(obj instanceof clases.Empleado) {
             clases.Empleado empNuevo = (clases.Empleado) obj;
-            // Buscamos por DNI y reemplazamos
-            for(int i = 0; i < indice; i++) {
+            for(int i=0; i < indice; i++) {
                 if(empleados[i].getDni().equals(empNuevo.getDni())) {
                     empleados[i] = empNuevo;
                     break;
@@ -74,7 +73,14 @@ public class ArregloEmpleados implements Mantenimiento{
             }
         }
     }
-    @Override public Object buscar(String dni) { return null; }
+    @Override public Object buscar(String dni) { 
+        for(int i = 0; i < indice; i++) {
+            // ¡OJO AQUÍ! Debe ser .equals()
+            if(empleados[i].getDni().equals(dni)) { 
+                return empleados[i];
+            }
+        }
+        return null; }
     @Override public Object[] listar() { return empleados; }
     @Override public int cantidad() { return indice; }
 }

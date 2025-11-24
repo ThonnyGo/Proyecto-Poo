@@ -15,6 +15,8 @@ public class frmGestionVehiculos extends javax.swing.JFrame {
      */
     public frmGestionVehiculos() {
         initComponents();
+        listarVehiculos();
+        
         this.setLocationRelativeTo(null);
     }
 
@@ -349,28 +351,28 @@ void limpiarCampos() {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        String codigo = txtCodigo.getText();
+        // 1. IMPORTANTE: Capturamos TODOS los datos de las cajas
+    // (Se supone que ya le diste a "Buscar" antes, así que las cajas tienen info)
+    String cod = txtCodigo.getText(); // El código NO debe cambiar, sirve de ID
+    String mar = txtMarca.getText();
+    String mod = txtModelo.getText();
+    String col = txtColor.getText();
+    int anio = Integer.parseInt(txtAnio.getText());
+    double pre = Double.parseDouble(txtPrecio.getText());
+    String tipo = cboTipo.getSelectedItem().toString();
+    String est = cboEstado.getSelectedItem().toString(); // Capturamos el estado también
+
+    // 2. Creamos un auto nuevo con los datos mezclados (viejos + nuevos)
+    clases.Vehiculo autoModificado = new clases.Vehiculo(cod, mar, mod, col, anio, tipo, pre);
+    autoModificado.setEstado(est); // Aseguramos que el estado se mantenga o cambie
+
+    // 3. Mandamos a reemplazar
+    Principal.gestorVehiculos.modificar(autoModificado);
     
-    // 1. Buscamos el objeto original
-    clases.Vehiculo v = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigo);
-    
-    if (v != null) {
-        // 2. Le cambiamos los valores (Necesitas tener SETTERS en tu clase Vehiculo)
-        // Ve a Vehiculo.java y genera Setters si no los tienes.
-        /* v.setPrecioBase(Double.parseDouble(txtPrecio.getText()));
-           v.setEstado(cboEstado.getSelectedItem().toString());
-           // ... setea los demás campos
-        */
-        
-        // Forma alternativa si no quieres usar setters:
-        // Borras el viejo y creas uno nuevo (aunque cambia la referencia en memoria)
-        Principal.gestorVehiculos.eliminar(codigo);
-        btnAgregarActionPerformed(evt); // Llamas al agregar para guardarlo de nuevo con cambios
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo Modificado");
-        listarVehiculos();
-        limpiarCampos();
-    }
+    // 4. Actualizamos
+    listarVehiculos();
+    limpiarCampos();
+    javax.swing.JOptionPane.showMessageDialog(this, "Vehículo Modificado Correctamente");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

@@ -48,9 +48,10 @@ public class ArregloClientes implements Mantenimiento {
     @Override public void modificar(Object obj) {
         if(obj instanceof clases.Cliente) {
             clases.Cliente cliNuevo = (clases.Cliente) obj;
-            for(int i = 0; i < indice; i++) {
+            for(int i=0; i < indice; i++) {
+                // Buscamos por DNI
                 if(clientes[i].getDni().equals(cliNuevo.getDni())) {
-                    clientes[i] = cliNuevo;
+                    clientes[i] = cliNuevo; // Reemplazamos
                     break;
                 }
             }

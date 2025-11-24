@@ -15,6 +15,7 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
      */
     public frmGestionEmpleados() {
         initComponents();
+        listarEmpleados();
         this.setLocationRelativeTo(null);
     }
 
@@ -47,6 +48,7 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEmpleados = new javax.swing.JTable();
+        btnModificar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,6 +138,13 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblEmpleados);
 
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,11 +193,14 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnEliminar)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnLimpiar))))
+                                .addComponent(btnLimpiar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnModificar))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(544, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)))
+                .addContainerGap(467, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +228,8 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
                     .addComponent(btnAgregar)
                     .addComponent(btnBuscar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnModificar))
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(119, Short.MAX_VALUE))
@@ -239,7 +252,7 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:// 1. Obtener el DNI a buscar
-    String dniBuscado = txtDni.getText();
+    String dniBuscado = txtDni.getText().trim();
     
     if(dniBuscado.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar");
@@ -349,6 +362,31 @@ void listarEmpleados() {
     }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        String dni = txtDni.getText();
+    String nom = txtNombres.getText();
+    String ape = txtApellidos.getText();
+    String user = txtUsuario.getText();
+    String pass = txtPassword.getText();
+    String rol = cboRol.getSelectedItem().toString();
+    
+    clases.Empleado empEditado;
+    
+    // Validamos el rol para crear el objeto correcto
+    if (rol.equals("Administrador")) {
+        empEditado = new clases.Administrador(dni, nom, ape, user, pass);
+    } else {
+        empEditado = new clases.Vendedor(dni, nom, ape, user, pass);
+    }
+    
+    Principal.gestorEmpleados.modificar(empEditado);
+    
+    listarEmpleados();
+    limpiarCampos();
+    javax.swing.JOptionPane.showMessageDialog(this, "Empleado actualizado.");
+    }//GEN-LAST:event_btnModificarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -389,6 +427,7 @@ void listarEmpleados() {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

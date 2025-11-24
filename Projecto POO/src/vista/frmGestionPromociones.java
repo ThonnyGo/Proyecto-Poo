@@ -15,6 +15,7 @@ public class frmGestionPromociones extends javax.swing.JFrame {
      */
     public frmGestionPromociones() {
         initComponents();
+        listarPromociones();
         this.setLocationRelativeTo(null);
     }
 
@@ -40,6 +41,7 @@ public class frmGestionPromociones extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPromociones = new javax.swing.JTable();
         btnLimpiar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -98,6 +100,13 @@ public class frmGestionPromociones extends javax.swing.JFrame {
             }
         });
 
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,11 +117,13 @@ public class frmGestionPromociones extends javax.swing.JFrame {
                         .addGap(142, 142, 142)
                         .addComponent(btnGuardar)
                         .addGap(26, 26, 26)
-                        .addComponent(btnEliminar))
+                        .addComponent(btnEliminar)
+                        .addGap(124, 124, 124)
+                        .addComponent(btnModificar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(124, 124, 124)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -156,7 +167,8 @@ public class frmGestionPromociones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnModificar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -255,6 +267,22 @@ void limpiarCampos() {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboTipoActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        String nom = txtNombre.getText(); // ID
+    String tipo = cboTipo.getSelectedItem().toString();
+    double val = Double.parseDouble(txtValor.getText());
+    String vig = txtVigencia.getText();
+    
+    clases.Promocion promoEditada = new clases.Promocion(nom, tipo, val, vig);
+    
+    Principal.gestorPromociones.modificar(promoEditada);
+    
+    listarPromociones();
+    limpiarCampos();
+    javax.swing.JOptionPane.showMessageDialog(this, "Promoción actualizada.");
+    }//GEN-LAST:event_btnModificarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -294,6 +322,7 @@ void limpiarCampos() {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cboTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

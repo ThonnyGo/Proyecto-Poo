@@ -42,7 +42,8 @@ public class ArregloPromociones implements Mantenimiento {
     @Override public void modificar(Object obj) {
         if(obj instanceof clases.Promocion) {
             clases.Promocion promoNueva = (clases.Promocion) obj;
-            for(int i = 0; i < indice; i++) {
+            for(int i=0; i < indice; i++) {
+                // Buscamos por NOMBRE
                 if(promociones[i].getNombre().equals(promoNueva.getNombre())) {
                     promociones[i] = promoNueva;
                     break;
