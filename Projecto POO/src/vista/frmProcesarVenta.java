@@ -18,6 +18,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     public frmProcesarVenta() {
         initComponents();
         listarVehiculosDisponibles(); 
+        cargarPromociones();
     }
     void cargarPromociones() {
         cboPromocion.removeAllItems();
@@ -63,7 +64,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtMontoPagar = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("DNI Cliente:");
 
@@ -157,10 +158,20 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         });
 
         btnBoleta.setText("Imprimir Boleta");
+        btnBoleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBoletaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Promocion:");
 
         cboPromocion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Promocion" }));
+        cboPromocion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboPromocionActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Método Pago:");
 
@@ -204,18 +215,17 @@ public class frmProcesarVenta extends javax.swing.JFrame {
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
                                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnVender)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(btnCotizar)
                         .addGap(314, 314, 314)
-                        .addComponent(btnBoleta))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(219, 219, 219)
-                        .addComponent(btnVender)))
+                        .addComponent(btnBoleta)))
                 .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -254,9 +264,9 @@ public class frmProcesarVenta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVender)
-                .addGap(39, 39, 39))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -293,6 +303,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     private void btnCotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformed
         // TODO add your handling code here:
      // 1. Validaciones básicas
+     
         if (clienteSeleccionado == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Busque un cliente primero");
             return;
@@ -329,6 +340,8 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         txtPrecioBase.setText(String.valueOf(precio));
         txtDescuento.setText(String.valueOf(descuento));
         txtTotal.setText(String.valueOf(total));
+        
+        txtMontoPagar.setText(String.valueOf(total));
 
         // 6. Obtener Vendedor (Tu lógica de login)
         clases.Vendedor vendedor;
@@ -375,24 +388,49 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     String codVenta = "V-" + System.currentTimeMillis();
     
     // ¡AQUÍ ESTÁ LA MAGIA! Pasamos método y monto al constructor
-    clases.Venta nuevaVenta = new clases.Venta(codVenta, cotizacionActual, metodo, montoPago);
+    ventaRealizada = new clases.Venta(codVenta, cotizacionActual, metodo, montoPago);
     
     // 4. Guardar
-    Principal.gestorVentas.agregar(nuevaVenta);
+    Principal.gestorVentas.agregar(ventaRealizada);
     
     // 5. Generar Comprobante
-    String boleta = nuevaVenta.generarComprobante();
+    String boleta = ventaRealizada.generarComprobante();
     javax.swing.JOptionPane.showMessageDialog(this, boleta, "BOLETA DE VENTA", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     
     // 6. Limpiar
     listarVehiculosDisponibles(); 
     limpiarFormulario();
     }//GEN-LAST:event_btnVenderActionPerformed
+
+    private void btnBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoletaActionPerformed
+        // TODO add your handling code here:
+        if (ventaRealizada == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "No hay ninguna venta reciente para imprimir.\nPrimero debe 'Registrar Venta'.");
+        return;
+    }
+
+    // 2. Obtener el texto del comprobante (Usando el método que ya tienes en la clase Venta)
+    String textoBoleta = ventaRealizada.generarComprobante();
+
+    // 3. Crear un área de texto para mostrarlo bonito (Formato Imprimible - Req 8)
+    javax.swing.JTextArea areaImpresion = new javax.swing.JTextArea(textoBoleta);
+    areaImpresion.setRows(15); // Alto
+    areaImpresion.setColumns(40); // Ancho
+    areaImpresion.setEditable(false); // Que no se pueda borrar
+    areaImpresion.setFont(new java.awt.Font("Monospaced", 0, 12)); // Letra tipo ticket
+
+    // 4. Mostrar en una ventana
+    javax.swing.JOptionPane.showMessageDialog(this, new javax.swing.JScrollPane(areaImpresion), "IMPRESIÓN DE COMPROBANTE", javax.swing.JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnBoletaActionPerformed
+
+    private void cboPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPromocionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboPromocionActionPerformed
 // Variables globales para guardar qué eligió el vendedor
     clases.Cliente clienteSeleccionado = null;
     clases.Vehiculo vehiculoSeleccionado = null;
     clases.Cotizacion cotizacionActual = null;
-
+    clases.Venta ventaRealizada = null; // Aquí guardaremos la venta para poder imprimirla después
     // Método para llenar la tabla SOLO con autos DISPONIBLES
     void listarVehiculosDisponibles() {
         javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
