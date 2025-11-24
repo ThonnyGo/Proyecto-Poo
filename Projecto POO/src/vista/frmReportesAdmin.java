@@ -15,6 +15,7 @@ public class frmReportesAdmin extends javax.swing.JFrame {
      */
     public frmReportesAdmin() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

@@ -14,7 +14,10 @@ public class frmAdministrador extends javax.swing.JFrame {
      * Creates new form frmAdministrador
      */
     public frmAdministrador() {
+        this.setContentPane(new utilitario.PanelFondo("/imagenes/fondoadministrador.png"));
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -38,8 +41,10 @@ public class frmAdministrador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mantenimiento.png"))); // NOI18N
         jMenu1.setText("Mantenimiento");
 
+        mitEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/clientes.png"))); // NOI18N
         mitEmpleados.setText("Gestionar Empleados");
         mitEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,6 +53,7 @@ public class frmAdministrador extends javax.swing.JFrame {
         });
         jMenu1.add(mitEmpleados);
 
+        mitVehiculos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/vehiculos.png"))); // NOI18N
         mitVehiculos.setText("Gestionar Vehículos");
         mitVehiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +62,7 @@ public class frmAdministrador extends javax.swing.JFrame {
         });
         jMenu1.add(mitVehiculos);
 
+        mitPromociones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/promociones.png"))); // NOI18N
         mitPromociones.setText("Gestionar Promociones");
         mitPromociones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,8 +73,10 @@ public class frmAdministrador extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reporte.png"))); // NOI18N
         jMenu2.setText("Reportes");
 
+        mitReporteGenera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reporte.png"))); // NOI18N
         mitReporteGenera.setText(" Reporte General");
         mitReporteGenera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +87,7 @@ public class frmAdministrador extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrar.png"))); // NOI18N
         jMenu3.setText("Salir");
 
         mitSalir.setText("Cerrar Sesión");
@@ -100,7 +110,7 @@ public class frmAdministrador extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 261, Short.MAX_VALUE)
         );
 
         pack();

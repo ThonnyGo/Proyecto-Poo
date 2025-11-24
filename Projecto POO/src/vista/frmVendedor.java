@@ -14,7 +14,10 @@ public class frmVendedor extends javax.swing.JFrame {
      * Creates new form frmVendedor
      */
     public frmVendedor() {
+        this.setContentPane(new utilitario.PanelFondo("/imagenes/fondovendedor.jpg"));
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -51,8 +54,10 @@ public class frmVendedor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados.png"))); // NOI18N
         jMenu1.setText("Clientes");
 
+        mitClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/clientes.png"))); // NOI18N
         mitClientes.setText("Gestionar Clientes");
         mitClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,8 +68,10 @@ public class frmVendedor extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        mnVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/book.png"))); // NOI18N
         mnVenta.setText("Ventas");
 
+        mitVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/venta.png"))); // NOI18N
         mitVenta.setText("Nueva Venta / Cotización");
         mitVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +82,7 @@ public class frmVendedor extends javax.swing.JFrame {
 
         jMenuBar1.add(mnVenta);
 
+        mnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrar.png"))); // NOI18N
         mnSalir.setText("Salir");
 
         mitSalir.setText("Cerrar Sesión");
@@ -97,7 +105,7 @@ public class frmVendedor extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 261, Short.MAX_VALUE)
         );
 
         pack();

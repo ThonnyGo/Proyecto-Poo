@@ -14,7 +14,9 @@ public class frmLogin extends javax.swing.JFrame {
      * Creates new form frmPrincipal
      */
     public frmLogin() {
+        this.setContentPane(new utilitario.PanelFondo("/imagenes/loginautos.jpg"));
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -47,8 +49,10 @@ public class frmLogin extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("Usuario: ");
 
+        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("Password: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,7 +171,7 @@ public class frmLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmLogin().setVisible(true);
+                new frmLogin().setVisible(true);   
             }
         });
     }

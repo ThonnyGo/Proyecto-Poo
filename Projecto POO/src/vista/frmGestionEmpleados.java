@@ -15,6 +15,7 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
      */
     public frmGestionEmpleados() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

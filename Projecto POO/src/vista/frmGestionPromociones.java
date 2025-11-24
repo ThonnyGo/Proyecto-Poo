@@ -15,6 +15,7 @@ public class frmGestionPromociones extends javax.swing.JFrame {
      */
     public frmGestionPromociones() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

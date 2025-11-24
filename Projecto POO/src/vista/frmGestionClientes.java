@@ -15,6 +15,7 @@ public class frmGestionClientes extends javax.swing.JFrame {
      */
     public frmGestionClientes() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 void listarClientes() {
     javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();

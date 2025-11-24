@@ -22,13 +22,15 @@ public class Promocion {
     }
 
     public double calcularDescuento(double precioBase) {
-        if (tipo.equalsIgnoreCase("Porcentaje")) {
-            return precioBase * (valor / 100);
-        } else {
-            return valor; // Monto fijo
+        // Opción 1: Si es Porcentaje (Ej. 10%)
+        if (this.tipo.equalsIgnoreCase("Porcentaje")) {
+            return precioBase * (this.valor / 100);
+        } 
+        // Opción 2: Si es Monto Fijo (Ej. $500)
+        else {
+            return this.valor;
         }
     }
-    
     public String getNombre() { return nombre; }
     public String getTipo() { return tipo; }
     public double getValor() { return valor; }

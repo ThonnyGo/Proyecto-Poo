@@ -15,6 +15,7 @@ public class frmGestionVehiculos extends javax.swing.JFrame {
      */
     public frmGestionVehiculos() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

@@ -19,6 +19,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         initComponents();
         listarVehiculosDisponibles(); 
         cargarPromociones();
+        this.setLocationRelativeTo(null);
     }
     void cargarPromociones() {
         cboPromocion.removeAllItems();
@@ -316,31 +317,31 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         // 2. Obtener Auto
         String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
         vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
+        double precio = vehiculoSeleccionado.getPrecioBase();
 
         // 3. OBTENER PROMOCIÓN (La parte nueva)
         clases.Promocion promoSeleccionada = null;
         String nombrePromo = cboPromocion.getSelectedItem().toString();
+        double descuento = 0; // Empieza en 0
         
         if (!nombrePromo.equals("Sin Promocion")) {
-            // Buscamos el objeto promoción real
+            // Buscamos el objeto en el arreglo
             promoSeleccionada = (clases.Promocion) Principal.gestorPromociones.buscar(nombrePromo);
-        }
-
-        // 4. Calcular precios (Usando el objeto promoción si existe)
-        double precio = vehiculoSeleccionado.getPrecioBase();
-        double descuento = 0;
-        
-        if (promoSeleccionada != null) {
-            descuento = promoSeleccionada.calcularDescuento(precio);
-        }
+            
+            // --- AQUÍ ESTÁ LA CORRECCIÓN ---
+            // Le preguntamos a la clase Promocion cuánto es el descuento real
+            if (promoSeleccionada != null) {
+                descuento = promoSeleccionada.calcularDescuento(precio);
+            }
         
         double total = precio - descuento;
 
         // 5. Mostrar en pantalla
-        txtPrecioBase.setText(String.valueOf(precio));
-        txtDescuento.setText(String.valueOf(descuento));
-        txtTotal.setText(String.valueOf(total));
+        txtPrecioBase.setText(String.format("%.2f", precio));
+        txtDescuento.setText(String.format("%.2f", descuento)); // Aquí debes ver el monto calculado
+        txtTotal.setText(String.format("%.2f", total));
         
+        // Pre-llenar monto a pagar
         txtMontoPagar.setText(String.valueOf(total));
 
         // 6. Obtener Vendedor (Tu lógica de login)
@@ -359,7 +360,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
 
         javax.swing.JOptionPane.showMessageDialog(this, "Cotización generada con éxito. Total: $" + total);
     }//GEN-LAST:event_btnCotizarActionPerformed
-
+    }
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
     // 1. Validaciones previas...
     if (cotizacionActual == null) {
