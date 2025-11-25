@@ -18,6 +18,8 @@ public class ArregloVehiculos implements Mantenimiento {
     public ArregloVehiculos() {
         this.vehiculos = new Vehiculo[100];
         this.indice = 0;
+        vehiculos[indice++]= new Vehiculo("001", "Toyota", "Yaris", "Verde", 2006, "Yusan", 30000.0);
+        
     }
 
     @Override

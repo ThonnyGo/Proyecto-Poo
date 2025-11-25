@@ -4,6 +4,8 @@
  */
 package vista;
 
+import javax.swing.UIManager;
+
 /**
  *
  * @author rauly
@@ -117,23 +119,23 @@ public class frmLogin extends javax.swing.JFrame {
         if (empleadoLogueado != null) {
             // ¡Login Exitoso!
             javax.swing.JOptionPane.showMessageDialog(this, "Bienvenido " + empleadoLogueado.getNombres());
-            
+
             // 5. REQUERIMIENTO 10: Redireccionar según el ROL
             String rol = empleadoLogueado.getRol();
-            
+
             if (rol.equalsIgnoreCase("Administrador")) {
                 // Abrir ventana del Jefe
-                frmAdministrador ventanaAdmin = new frmAdministrador(); 
+                frmAdministrador ventanaAdmin = new frmAdministrador();
                 ventanaAdmin.setVisible(true);
             } else if (rol.equalsIgnoreCase("Vendedor")) {
                 // Abrir ventana del Vendedor
                 frmVendedor ventanaVentas = new frmVendedor();
                 ventanaVentas.setVisible(true);
             }
-            
+
             // Cerramos la ventana de Login
             this.dispose();
-            
+
         } else {
             // Usuario o clave incorrectos
             javax.swing.JOptionPane.showMessageDialog(this, "Credenciales incorrectas. Intente de nuevo.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -167,11 +169,18 @@ public class frmLogin extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        try {
+
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
+        } catch (Exception e) {
+
+        }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmLogin().setVisible(true);   
+                new frmLogin().setVisible(true);
             }
         });
     }

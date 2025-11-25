@@ -9,6 +9,7 @@ package vista;
  * @author rauly
  */
 import Gestiones.*; 
+import javax.swing.UIManager;
 
 public class Principal {
     // ESTO ES TU "MEMORIA": Arreglos estáticos accesibles desde cualquier ventana
@@ -21,6 +22,13 @@ public class Principal {
     public static clases.Empleado empleadoAutenticado;
 
     public static void main(String[] args) {
+        try {
+
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
+        } catch (Exception e) {
+
+        }
         // Al ejecutar, arrancamos el LOGIN directamente
         frmLogin login = new frmLogin();
         login.setVisible(true);
