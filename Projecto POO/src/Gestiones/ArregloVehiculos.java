@@ -19,7 +19,25 @@ public class ArregloVehiculos implements Mantenimiento {
         this.vehiculos = new Vehiculo[100];
         this.indice = 0;
         vehiculos[indice++]= new Vehiculo("001", "Toyota", "Yaris", "Verde", 2006, "Yusan", 30000.0);
-        
+        vehiculos[indice++]= new Vehiculo("002", "Nissan", "Versa", "Plata", 2022, "Juan Perez", 19000.0);
+vehiculos[indice++]= new Vehiculo("003", "Kia", "Picanto", "Rojo", 2024, "KiaMotors", 13000.0);
+vehiculos[indice++]= new Vehiculo("004", "Hyundai", "Accent", "Azul", 2021, "Maria Lopez", 17000.0);
+vehiculos[indice++]= new Vehiculo("005", "Honda", "Civic", "Negro", 2023, "HondaCenter", 28000.0);
+vehiculos[indice++]= new Vehiculo("006", "Mazda", "3", "Gris", 2022, "Carlos Ruiz", 24000.0);
+vehiculos[indice++]= new Vehiculo("007", "Chevrolet", "Onix", "Naranja", 2023, "ChevroAuto", 16000.0);
+vehiculos[indice++]= new Vehiculo("008", "Volkswagen", "Gol", "Blanco", 2021, "Pedro Diaz", 14000.0);
+vehiculos[indice++]= new Vehiculo("009", "Suzuki", "Swift", "Amarillo", 2022, "SuzukiCity", 15000.0);
+vehiculos[indice++]= new Vehiculo("010", "Toyota", "RAV4", "Verde", 2023, "CamionetasSAC", 35000.0);
+vehiculos[indice++]= new Vehiculo("011", "Ford", "Ranger", "Negro", 2022, "Empresa Minera", 40000.0);
+vehiculos[indice++]= new Vehiculo("012", "Renault", "Duster", "Marron", 2021, "Ana Torres", 21000.0);
+vehiculos[indice++]= new Vehiculo("013", "Subaru", "Impreza", "Azul", 2020, "Luis Gomez", 23000.0);
+vehiculos[indice++]= new Vehiculo("014", "Jeep", "Renegade", "Verde Oliva", 2022, "JeepOfficial", 29000.0);
+vehiculos[indice++]= new Vehiculo("015", "Hyundai", "Tucson", "Gris", 2023, "HyundaiNorte", 32000.0);
+vehiculos[indice++]= new Vehiculo("016", "Nissan", "Sentra", "Blanco", 2021, "TaxiVip", 20000.0);
+vehiculos[indice++]= new Vehiculo("017", "BMW", "Serie 3", "Negro", 2021, "Ejecutivo SA", 45000.0);
+vehiculos[indice++]= new Vehiculo("018", "Audi", "Q3", "Plata", 2022, "PremiumCars", 42000.0);
+vehiculos[indice++]= new Vehiculo("019", "Peugeot", "208", "Azul", 2023, "FrancesaAutos", 18000.0);
+vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "ImportadoraChin", 16000.0);
     }
 
     @Override

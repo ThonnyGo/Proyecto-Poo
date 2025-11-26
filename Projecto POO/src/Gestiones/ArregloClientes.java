@@ -18,6 +18,7 @@ public class ArregloClientes implements Mantenimiento {
     public ArregloClientes() {
         this.clientes = new Cliente[100];
         this.indice = 0;
+        clientes[indice++]= new Cliente("60916230", "Pedro", "Neto", "Garcia", "Lince","987654321", "Thonny@gmail.com");
     }
 
     @Override
