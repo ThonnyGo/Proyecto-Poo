@@ -22,7 +22,7 @@ public class ArregloEmpleados implements Mantenimiento{
         this.indice = 0;
         // Usuario por defecto para poder entrar al sistema (REQ 10)
         agregar(new Administrador("001", "Anthony", "Garcia", "admin", "123"));
-        agregar(new Vendedor("002", "Flavio", "Souza", "vend", "123"));
+        agregar(new Vendedor("002", "Flavio", "De Souza", "vend", "123"));
     }
 
     // REQ 10: Mecanismo de Autenticación
