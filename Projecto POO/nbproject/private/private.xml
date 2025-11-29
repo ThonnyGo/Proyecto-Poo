@@ -5,11 +5,13 @@
         <group>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Empleado.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Persona.java</file>
+            <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/GestorReservasTemporizador.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/vista/frmGestionEmpleados.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Pago.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Interfaces/Mantenimiento.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/vista/frmVendedor.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Cliente.java</file>
+            <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Reserva.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/utilitario/PanelFondo.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/ArregloEmpleados.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/vista/frmReportesAdmin.java</file>
@@ -19,6 +21,7 @@
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/ArregloPromociones.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/ArregloVentas.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Promocion.java</file>
+            <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/ArregloReservas.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/vista/frmGestionVehiculos.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/Gestiones/ArregloClientes.java</file>
             <file>file:/C:/Users/rauly/Documents/GitHub/Proyecto-Poo/Projecto%20POO/src/clases/Vendedor.java</file>
