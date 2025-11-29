@@ -306,61 +306,63 @@ public class frmProcesarVenta extends javax.swing.JFrame {
      // 1. Validaciones básicas
      
         if (clienteSeleccionado == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Busque un cliente primero");
-            return;
-        }
-        if (tblVehiculos.getSelectedRow() == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un auto");
-            return;
-        }
-
-        // 2. Obtener Auto
-        String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
-        vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
-        double precio = vehiculoSeleccionado.getPrecioBase();
-
-        // 3. OBTENER PROMOCIÓN (La parte nueva)
-        clases.Promocion promoSeleccionada = null;
-        String nombrePromo = cboPromocion.getSelectedItem().toString();
-        double descuento = 0; // Empieza en 0
-        
-        if (!nombrePromo.equals("Sin Promocion")) {
-            // Buscamos el objeto en el arreglo
-            promoSeleccionada = (clases.Promocion) Principal.gestorPromociones.buscar(nombrePromo);
-            
-            // --- AQUÍ ESTÁ LA CORRECCIÓN ---
-            // Le preguntamos a la clase Promocion cuánto es el descuento real
-            if (promoSeleccionada != null) {
-                descuento = promoSeleccionada.calcularDescuento(precio);
-            }
-        
-        double total = precio - descuento;
-
-        // 5. Mostrar en pantalla
-        txtPrecioBase.setText(String.format("%.2f", precio));
-        txtDescuento.setText(String.format("%.2f", descuento)); // Aquí debes ver el monto calculado
-        txtTotal.setText(String.format("%.2f", total));
-        
-        // Pre-llenar monto a pagar
-        txtMontoPagar.setText(String.valueOf(total));
-
-        // 6. Obtener Vendedor (Tu lógica de login)
-        clases.Vendedor vendedor;
-        if (Principal.empleadoAutenticado instanceof clases.Vendedor) {
-            vendedor = (clases.Vendedor) Principal.empleadoAutenticado;
-        } else {
-            vendedor = new clases.Vendedor("000", "Vendedor", "Default", "v", "1");
-        }
-
-        // 7. Generar código único
-        String codCotizacion = "C-" + System.currentTimeMillis();
-
-        // 8. CREAR COTIZACIÓN (Ahora pasamos promoSeleccionada, que puede ser null o un objeto)
-        cotizacionActual = new clases.Cotizacion(codCotizacion, clienteSeleccionado, vendedor, vehiculoSeleccionado, promoSeleccionada);
-
-        javax.swing.JOptionPane.showMessageDialog(this, "Cotización generada con éxito. Total: $" + total);
-    }//GEN-LAST:event_btnCotizarActionPerformed
+        javax.swing.JOptionPane.showMessageDialog(this, "Busque un cliente primero");
+        return;
     }
+    if (tblVehiculos.getSelectedRow() == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un auto");
+        return;
+    }
+
+    // 2. Obtener Auto
+    String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
+    vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
+    double precio = vehiculoSeleccionado.getPrecioBase();
+
+    // 3. LÓGICA DE PROMOCIÓN (CORREGIDA)
+    clases.Promocion promoSeleccionada = null;
+    double descuento = 0; 
+    
+    // Obtenemos lo que dice la cajita
+    String textoCombo = cboPromocion.getSelectedItem().toString();
+
+    // Solo buscamos si NO es la opción por defecto
+    // Usamos 'contains' para evitar problemas con tildes o espacios
+    if (!textoCombo.contains("Sin Promocion")) {
+        promoSeleccionada = (clases.Promocion) Principal.gestorPromociones.buscar(textoCombo);
+        
+        // Si la encontró, calculamos. Si no, sigue siendo 0.
+        if (promoSeleccionada != null) {
+            descuento = promoSeleccionada.calcularDescuento(precio);
+        }
+    }
+
+    // 4. Calcular Total
+    double total = precio - descuento;
+
+    // 5. Mostrar en pantalla
+    txtPrecioBase.setText(String.valueOf(precio));
+    txtDescuento.setText(String.valueOf(descuento));
+    txtTotal.setText(String.valueOf(total));
+    txtMontoPagar.setText(String.valueOf(total)); // Pre-llenar pago
+
+    // 6. Obtener Vendedor (Tu lógica de seguridad)
+    clases.Vendedor vendedor;
+    if (Principal.empleadoAutenticado instanceof clases.Vendedor) {
+        vendedor = (clases.Vendedor) Principal.empleadoAutenticado;
+    } else {
+        vendedor = new clases.Vendedor("000", "Vendedor", "Default", "v", "1");
+    }
+
+    // 7. Crear Cotización
+    String codCotizacion = "C-" + System.currentTimeMillis();
+    
+    // AQUÍ PASAMOS 'null' SI NO HAY PROMO, Y ESTÁ BIEN.
+    cotizacionActual = new clases.Cotizacion(codCotizacion, clienteSeleccionado, vendedor, vehiculoSeleccionado, promoSeleccionada);
+
+    javax.swing.JOptionPane.showMessageDialog(this, "Cotización generada. Total: $" + total);
+    }//GEN-LAST:event_btnCotizarActionPerformed
+    
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
     // 1. Validaciones previas...
     if (cotizacionActual == null) {

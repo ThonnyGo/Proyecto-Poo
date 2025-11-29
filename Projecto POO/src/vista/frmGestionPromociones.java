@@ -268,19 +268,24 @@ void limpiarCampos() {
     }//GEN-LAST:event_cboTipoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-        String nom = txtNombre.getText(); // ID
+    String nombre = txtNombre.getText(); 
+    
+    if (nombre.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Busque primero por Nombre");
+        return;
+    }
+
     String tipo = cboTipo.getSelectedItem().toString();
-    double val = Double.parseDouble(txtValor.getText());
-    String vig = txtVigencia.getText();
-    
-    clases.Promocion promoEditada = new clases.Promocion(nom, tipo, val, vig);
-    
+    double valor = Double.parseDouble(txtValor.getText());
+    String vigencia = txtVigencia.getText();
+
+    clases.Promocion promoEditada = new clases.Promocion(nombre, tipo, valor, vigencia);
+
     Principal.gestorPromociones.modificar(promoEditada);
     
     listarPromociones();
     limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Promoción actualizada.");
+    javax.swing.JOptionPane.showMessageDialog(this, "Promoción editada.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

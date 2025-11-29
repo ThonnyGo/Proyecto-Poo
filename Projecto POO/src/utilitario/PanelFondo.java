@@ -12,10 +12,9 @@ import javax.swing.JPanel;
 public class PanelFondo extends JPanel {
     private Image imagen;
 
-    // Constructor: Recibe la ruta de la imagen para que sea dinámico
+    
     public PanelFondo(String rutaImagen) {
         try {
-            // Cargamos la imagen desde tu paquete de imágenes
             imagen = new ImageIcon(getClass().getResource(rutaImagen)).getImage();
         } catch (Exception e) {
             System.out.println("Error cargando imagen: " + rutaImagen);
@@ -24,11 +23,11 @@ public class PanelFondo extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        // Dibuja la imagen ocupando todo el ancho y alto del panel
+        
         if (imagen != null) {
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
         }
-        // Esta línea es importante para que se dibujen los botones encima
+       
         setOpaque(false); 
         super.paintComponent(g);
     }

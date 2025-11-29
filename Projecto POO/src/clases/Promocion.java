@@ -4,11 +4,13 @@
  */
 package clases;
 
+import Interfaces.ICalculable;
+
 /**
  *
  * @author rauly
  */
-public class Promocion {
+public class Promocion  implements ICalculable {
     private String nombre;
     private String tipo; // "Porcentaje" o "MontoFijo"
     private double valor;
@@ -22,11 +24,11 @@ public class Promocion {
     }
 
     public double calcularDescuento(double precioBase) {
-        // Opción 1: Si es Porcentaje (Ej. 10%)
+        
         if (this.tipo.equalsIgnoreCase("Porcentaje")) {
             return precioBase * (this.valor / 100);
         } 
-        // Opción 2: Si es Monto Fijo (Ej. $500)
+        
         else {
             return this.valor;
         }
@@ -35,4 +37,14 @@ public class Promocion {
     public String getTipo() { return tipo; }
     public double getValor() { return valor; }
     public String getVigencia() { return vigencia; }
+
+    @Override
+    public double calcularPrecioFinal(double precioBase) {
+        if (tipo.equals("Porcentaje")) {
+            return precioBase - (precioBase * valor / 100);
+        } else {
+            return precioBase - valor;
+        }
+    }
+        
 }

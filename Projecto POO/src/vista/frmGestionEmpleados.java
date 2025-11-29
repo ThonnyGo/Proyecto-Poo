@@ -252,28 +252,28 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:// 1. Obtener el DNI a buscar
-    String dniBuscado = txtDni.getText().trim();
-    
-    if(dniBuscado.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar");
-        return;
-    }
+        String dniBuscado = txtDni.getText().trim();
 
-    // 2. Buscar en el arreglo
-    clases.Empleado emp = (clases.Empleado) Principal.gestorEmpleados.buscar(dniBuscado);
+        if (dniBuscado.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar");
+            return;
+        }
 
-    // 3. Mostrar datos si existe
-    if (emp != null) {
-        txtNombres.setText(emp.getNombres());
-        txtApellidos.setText(emp.getApellidos());
-        txtUsuario.setText(emp.getUsuario());
-        // Nota: Por seguridad a veces no se muestra la password, pero aquí lo haremos para editar
-        txtPassword.setText("****"); 
-        cboRol.setSelectedItem(emp.getRol());
-        javax.swing.JOptionPane.showMessageDialog(this, "Empleado Encontrado");
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Empleado no existe");
-    }
+        // 2. Buscar en el arreglo
+        clases.Empleado emp = (clases.Empleado) Principal.gestorEmpleados.buscar(dniBuscado);
+
+        // 3. Mostrar datos si existe
+        if (emp != null) {
+            txtNombres.setText(emp.getNombres());
+            txtApellidos.setText(emp.getApellidos());
+            txtUsuario.setText(emp.getUsuario());
+            // Nota: Por seguridad a veces no se muestra la password, pero aquí lo haremos para editar
+            txtPassword.setText("****");
+            cboRol.setSelectedItem(emp.getRol());
+            javax.swing.JOptionPane.showMessageDialog(this, "Empleado Encontrado");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Empleado no existe");
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -285,52 +285,54 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         String pass = txtPassword.getText();
         String rol = cboRol.getSelectedItem().toString();
 
-    // 2. Validar que no estén vacíos
-    if (dni.isEmpty() || user.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
-        return;
+        // 2. Validar que no estén vacíos
+        if (dni.isEmpty() || user.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
+            return;
+        }
+
+        // 3. Crear el objeto según el Rol (Polimorfismo)
+        clases.Empleado nuevo;
+        if (rol.equals("Administrador")) {
+            nuevo = new clases.Administrador(dni, nom, ape, user, pass);
+        } else {
+            nuevo = new clases.Vendedor(dni, nom, ape, user, pass);
+        }
+
+        // 4. Guardar en la memoria global
+        Principal.gestorEmpleados.agregar(nuevo);
+
+        // 5. Actualizar la tabla (Debes crear este método listar similar al de Vehículos)
+        listarEmpleados();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Empleado registrado con éxito");
     }
-
-    // 3. Crear el objeto según el Rol (Polimorfismo)
-    clases.Empleado nuevo;
-    if (rol.equals("Administrador")) {
-        nuevo = new clases.Administrador(dni, nom, ape, user, pass);
-    } else {
-        nuevo = new clases.Vendedor(dni, nom, ape, user, pass);
-    }
-
-    // 4. Guardar en la memoria global
-    Principal.gestorEmpleados.agregar(nuevo);
-
-    // 5. Actualizar la tabla (Debes crear este método listar similar al de Vehículos)
-    listarEmpleados(); 
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Empleado registrado con éxito");
-}
 // Método para borrar el texto de las cajitas después de guardar
-void limpiarCampos() {
-    txtDni.setText("");
-    txtNombres.setText("");
-    txtApellidos.setText("");
-    txtUsuario.setText("");
-    txtPassword.setText("");
-    cboRol.setSelectedIndex(0);
-    txtDni.requestFocus(); // Pone el cursor en el primer campo
-}
-// Método auxiliar para listar (ponlo fuera del botón)
-void listarEmpleados() {
-    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-    modelo.addColumn("DNI");
-    modelo.addColumn("Nombres");
-    modelo.addColumn("Rol");
-    modelo.addColumn("Usuario");
-    
-    Object[] data = Principal.gestorEmpleados.listar();
-    for (int i = 0; i < Principal.gestorEmpleados.cantidad(); i++) {
-        clases.Empleado e = (clases.Empleado) data[i];
-        modelo.addRow(new Object[]{e.getDni(), e.getNombres() + " " + e.getApellidos(), e.getRol(), e.getUsuario()});
+
+    void limpiarCampos() {
+        txtDni.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        txtUsuario.setText("");
+        txtPassword.setText("");
+        cboRol.setSelectedIndex(0);
+        txtDni.requestFocus(); // Pone el cursor en el primer campo
     }
-    tblEmpleados.setModel(modelo);
+// Método auxiliar para listar (ponlo fuera del botón)
+
+    void listarEmpleados() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("DNI");
+        modelo.addColumn("Nombres");
+        modelo.addColumn("Rol");
+        modelo.addColumn("Usuario");
+
+        Object[] data = Principal.gestorEmpleados.listar();
+        for (int i = 0; i < Principal.gestorEmpleados.cantidad(); i++) {
+            clases.Empleado e = (clases.Empleado) data[i];
+            modelo.addRow(new Object[]{e.getDni(), e.getNombres() + " " + e.getApellidos(), e.getRol(), e.getUsuario()});
+        }
+        tblEmpleados.setModel(modelo);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -341,50 +343,53 @@ void listarEmpleados() {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         String dni = txtDni.getText();
-    
-    if (dni.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Escriba el DNI a eliminar");
-        return;
-    }
-    
-    // Confirmación
-    int rpta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro de eliminar al empleado?");
-    
-    if(rpta == 0) {
-        // 1. Eliminar de la memoria
-        Principal.gestorEmpleados.eliminar(dni);
-        
-        // 2. ACTUALIZAR LA TABLA (Esto es lo que suele faltar)
-        listarEmpleados();
-        limpiarCampos();
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Empleado eliminado.");
-    }
+
+        if (dni.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Escriba el DNI a eliminar");
+            return;
+        }
+
+        // Confirmación
+        int rpta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro de eliminar al empleado?");
+
+        if (rpta == 0) {
+            // 1. Eliminar de la memoria
+            Principal.gestorEmpleados.eliminar(dni);
+
+            // 2. ACTUALIZAR LA TABLA (Esto es lo que suele faltar)
+            listarEmpleados();
+            limpiarCampos();
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Empleado eliminado.");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
         String dni = txtDni.getText();
-    String nom = txtNombres.getText();
-    String ape = txtApellidos.getText();
-    String user = txtUsuario.getText();
-    String pass = txtPassword.getText();
-    String rol = cboRol.getSelectedItem().toString();
-    
-    clases.Empleado empEditado;
-    
-    // Validamos el rol para crear el objeto correcto
-    if (rol.equals("Administrador")) {
-        empEditado = new clases.Administrador(dni, nom, ape, user, pass);
-    } else {
-        empEditado = new clases.Vendedor(dni, nom, ape, user, pass);
-    }
-    
-    Principal.gestorEmpleados.modificar(empEditado);
-    
-    listarEmpleados();
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Empleado actualizado.");
+
+        if (dni.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Busque primero por DNI");
+            return;
+        }
+
+        String nom = txtNombres.getText();
+        String ape = txtApellidos.getText();
+        String user = txtUsuario.getText();
+        String pass = txtPassword.getText();
+        String rol = cboRol.getSelectedItem().toString();
+
+        clases.Empleado empEditado;
+        if (rol.equals("Administrador")) {
+            empEditado = new clases.Administrador(dni, nom, ape, user, pass);
+        } else {
+            empEditado = new clases.Vendedor(dni, nom, ape, user, pass);
+        }
+
+        Principal.gestorEmpleados.modificar(empEditado);
+
+        listarEmpleados();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Datos del empleado actualizados.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

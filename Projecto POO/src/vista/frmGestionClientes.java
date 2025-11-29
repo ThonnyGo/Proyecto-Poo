@@ -18,38 +18,40 @@ public class frmGestionClientes extends javax.swing.JFrame {
         listarClientes();
         this.setLocationRelativeTo(null);
     }
-void listarClientes() {
-    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-    modelo.addColumn("DNI");
-    modelo.addColumn("Nombre Completo");
-    modelo.addColumn("Teléfono");
-    modelo.addColumn("Correo");
 
-    Object[] datos = Principal.gestorClientes.listar();
+    void listarClientes() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("DNI");
+        modelo.addColumn("Nombre Completo");
+        modelo.addColumn("Teléfono");
+        modelo.addColumn("Correo");
 
-    for (int i = 0; i < Principal.gestorClientes.cantidad(); i++) {
-        clases.Cliente c = (clases.Cliente) datos[i];
-        // Concatenamos los nombres para que se vea bien en la tabla
-        modelo.addRow(new Object[]{
-            c.getDni(),
-            c.getNombres() + " " + c.getApellidos(), 
-            c.getTelefono(), // Asegúrate de tener este getter en Cliente.java
-            c.getCorreo()    // Asegúrate de tener este getter en Cliente.java
-        });
+        Object[] datos = Principal.gestorClientes.listar();
+
+        for (int i = 0; i < Principal.gestorClientes.cantidad(); i++) {
+            clases.Cliente c = (clases.Cliente) datos[i];
+            // Concatenamos los nombres para que se vea bien en la tabla
+            modelo.addRow(new Object[]{
+                c.getDni(),
+                c.getNombres() + " " + c.getApellidos(),
+                c.getTelefono(), // Asegúrate de tener este getter en Cliente.java
+                c.getCorreo() // Asegúrate de tener este getter en Cliente.java
+            });
+        }
+        tblClientes.setModel(modelo);
     }
-    tblClientes.setModel(modelo);
-}
 
-void limpiarCampos() {
-    txtDni.setText("");
-    txtNombres.setText("");
-    txtPaterno.setText("");
-    txtMaterno.setText("");
-    txtDireccion.setText("");
-    txtTelefono.setText("");
-    txtCorreo.setText("");
-    txtDni.requestFocus();
-}
+    void limpiarCampos() {
+        txtDni.setText("");
+        txtNombres.setText("");
+        txtPaterno.setText("");
+        txtMaterno.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+        txtDni.requestFocus();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -233,72 +235,75 @@ void limpiarCampos() {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         String dni = txtDni.getText();
-    String nom = txtNombres.getText();
-    String pat = txtPaterno.getText();
-    String mat = txtMaterno.getText();
-    String dir = txtDireccion.getText();
-    String tel = txtTelefono.getText();
-    String mail = txtCorreo.getText();
+        String nom = txtNombres.getText();
+        String pat = txtPaterno.getText();
+        String mat = txtMaterno.getText();
+        String dir = txtDireccion.getText();
+        String tel = txtTelefono.getText();
+        String mail = txtCorreo.getText();
 
-    if(dni.isEmpty() || nom.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "DNI y Nombre son obligatorios");
-        return;
-    }
+        if (dni.isEmpty() || nom.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "DNI y Nombre son obligatorios");
+            return;
+        }
 
-    // 2. Crear Cliente (OJO: El constructor de Cliente pide Paterno y Materno)
-    // Si en tu clase Cliente solo tienes "apellidos" juntos, júntalos aquí:
-    // clases.Cliente c = new clases.Cliente(dni, nom, pat + " " + mat, dir, tel, mail);
-    
-    // Si tu constructor los pide separados (como pide el PDF), úsalo así:
-    clases.Cliente c = new clases.Cliente(dni, nom, pat, mat, dir, tel, mail);
+        // 2. Crear Cliente (OJO: El constructor de Cliente pide Paterno y Materno)
+        // Si en tu clase Cliente solo tienes "apellidos" juntos, júntalos aquí:
+        // clases.Cliente c = new clases.Cliente(dni, nom, pat + " " + mat, dir, tel, mail);
+        // Si tu constructor los pide separados (como pide el PDF), úsalo así:
+        clases.Cliente c = new clases.Cliente(dni, nom, pat, mat, dir, tel, mail);
 
-    // 3. Guardar
-    Principal.gestorClientes.agregar(c);
-    
-    // 4. Actualizar
-    listarClientes();
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Cliente Registrado Exitosamente");
+        // 3. Guardar
+        Principal.gestorClientes.agregar(c);
+
+        // 4. Actualizar
+        listarClientes();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Cliente Registrado Exitosamente");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dni = txtDni.getText();
-    
-    clases.Cliente c = (clases.Cliente) Principal.gestorClientes.buscar(dni);
-    
-    if(c != null) {
-        txtNombres.setText(c.getNombres());
-        // Como guardamos los apellidos juntos o separados depende de tu clase,
-        // aquí asumimos que los muestras en la caja de Paterno para editar
-        txtPaterno.setText(c.getApellidos()); 
-        txtDireccion.setText(c.getDireccion()); // Necesitas getter
-        txtTelefono.setText(c.getTelefono());   // Necesitas getter
-        txtCorreo.setText(c.getCorreo());       // Necesitas getter
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Cliente no encontrado");
-    }
+
+        clases.Cliente c = (clases.Cliente) Principal.gestorClientes.buscar(dni);
+
+        if (c != null) {
+            txtNombres.setText(c.getNombres());
+            // Como guardamos los apellidos juntos o separados depende de tu clase,
+            // aquí asumimos que los muestras en la caja de Paterno para editar
+            txtPaterno.setText(c.getApellidos());
+            txtDireccion.setText(c.getDireccion()); // Necesitas getter
+            txtTelefono.setText(c.getTelefono());   // Necesitas getter
+            txtCorreo.setText(c.getCorreo());       // Necesitas getter
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Cliente no encontrado");
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-        String dni = txtDni.getText(); // EL ID
-    String nom = txtNombres.getText();
-    String pat = txtPaterno.getText();
-    String mat = txtMaterno.getText();
-    String dir = txtDireccion.getText();
-    String tel = txtTelefono.getText();
-    String mail = txtCorreo.getText();
+        String dni = txtDni.getText();
 
-    // Creamos el objeto con los datos actuales de las cajas
-    clases.Cliente clienteEditado = new clases.Cliente(dni, nom, pat, mat, dir, tel, mail);
-    
-    // Enviamos a modificar
-    Principal.gestorClientes.modificar(clienteEditado);
-    
-    listarClientes();
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Cliente actualizado.");
+        if (dni.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Primero BUSQUE al cliente por DNI.");
+            return;
+        }
+
+        String nom = txtNombres.getText();
+        String pat = txtPaterno.getText();
+        String mat = txtMaterno.getText();
+        String dir = txtDireccion.getText();
+        String tel = txtTelefono.getText();
+        String mail = txtCorreo.getText();
+
+        clases.Cliente clienteEditado = new clases.Cliente(dni, nom, pat, mat, dir, tel, mail);
+
+        Principal.gestorClientes.modificar(clienteEditado);
+
+        
+        listarClientes();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

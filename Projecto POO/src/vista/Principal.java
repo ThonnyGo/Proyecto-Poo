@@ -20,6 +20,9 @@ public class Principal {
     public static ArregloPromociones gestorPromociones = new ArregloPromociones();
     
     public static clases.Empleado empleadoAutenticado;
+    public static ArregloReservas gestorReservas = new ArregloReservas();
+    public static GestorReservasTemporizador temporizadorReservas =
+            new GestorReservasTemporizador(gestorReservas);
 
     public static void main(String[] args) {
         try {

@@ -349,29 +349,29 @@ void limpiarCampos() {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-        // 1. IMPORTANTE: Capturamos TODOS los datos de las cajas
-    // (Se supone que ya le diste a "Buscar" antes, así que las cajas tienen info)
-    String cod = txtCodigo.getText(); // El código NO debe cambiar, sirve de ID
-    String mar = txtMarca.getText();
-    String mod = txtModelo.getText();
-    String col = txtColor.getText();
-    int anio = Integer.parseInt(txtAnio.getText());
-    double pre = Double.parseDouble(txtPrecio.getText());
-    String tipo = cboTipo.getSelectedItem().toString();
-    String est = cboEstado.getSelectedItem().toString(); // Capturamos el estado también
-
-    // 2. Creamos un auto nuevo con los datos mezclados (viejos + nuevos)
-    clases.Vehiculo autoModificado = new clases.Vehiculo(cod, mar, mod, col, anio, tipo, pre);
-    autoModificado.setEstado(est); // Aseguramos que el estado se mantenga o cambie
-
-    // 3. Mandamos a reemplazar
-    Principal.gestorVehiculos.modificar(autoModificado);
+    String codigo = txtCodigo.getText();
     
-    // 4. Actualizamos
+    if (codigo.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Primero BUSQUE el vehículo por código.");
+        return;
+    }
+
+    String marca = txtMarca.getText();
+    String modelo = txtModelo.getText();
+    String color = txtColor.getText();
+    int anio = Integer.parseInt(txtAnio.getText());
+    double precio = Double.parseDouble(txtPrecio.getText());
+    String tipo = cboTipo.getSelectedItem().toString();
+    String estado = cboEstado.getSelectedItem().toString();
+
+    clases.Vehiculo autoEditado = new clases.Vehiculo(codigo, marca, modelo, color, anio, tipo, precio);
+    autoEditado.setEstado(estado);
+
+    Principal.gestorVehiculos.modificar(autoEditado);
+
     listarVehiculos();
     limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Vehículo Modificado Correctamente");
+    javax.swing.JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

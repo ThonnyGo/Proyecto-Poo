@@ -27,10 +27,10 @@ public class Cotizacion {
         this.promocion = promocion;
         this.fecha = Calendar.getInstance();
         
-        // CÁLCULO DEL PRECIO FINAL
+       
         double precio = vehiculo.getPrecioBase();
         if (promocion != null) {
-            // Si hay promo, restamos el descuento
+            
             precio -= promocion.calcularDescuento(precio);
         }
         this.montoTotal = precio;

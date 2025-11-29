@@ -20,24 +20,24 @@ public class ArregloVehiculos implements Mantenimiento {
         this.indice = 0;
         vehiculos[indice++]= new Vehiculo("001", "Toyota", "Yaris", "Verde", 2006, "Yusan", 30000.0);
         vehiculos[indice++]= new Vehiculo("002", "Nissan", "Versa", "Plata", 2022, "Juan Perez", 19000.0);
-vehiculos[indice++]= new Vehiculo("003", "Kia", "Picanto", "Rojo", 2024, "KiaMotors", 13000.0);
-vehiculos[indice++]= new Vehiculo("004", "Hyundai", "Accent", "Azul", 2021, "Maria Lopez", 17000.0);
-vehiculos[indice++]= new Vehiculo("005", "Honda", "Civic", "Negro", 2023, "HondaCenter", 28000.0);
-vehiculos[indice++]= new Vehiculo("006", "Mazda", "3", "Gris", 2022, "Carlos Ruiz", 24000.0);
-vehiculos[indice++]= new Vehiculo("007", "Chevrolet", "Onix", "Naranja", 2023, "ChevroAuto", 16000.0);
-vehiculos[indice++]= new Vehiculo("008", "Volkswagen", "Gol", "Blanco", 2021, "Pedro Diaz", 14000.0);
-vehiculos[indice++]= new Vehiculo("009", "Suzuki", "Swift", "Amarillo", 2022, "SuzukiCity", 15000.0);
-vehiculos[indice++]= new Vehiculo("010", "Toyota", "RAV4", "Verde", 2023, "CamionetasSAC", 35000.0);
-vehiculos[indice++]= new Vehiculo("011", "Ford", "Ranger", "Negro", 2022, "Empresa Minera", 40000.0);
-vehiculos[indice++]= new Vehiculo("012", "Renault", "Duster", "Marron", 2021, "Ana Torres", 21000.0);
-vehiculos[indice++]= new Vehiculo("013", "Subaru", "Impreza", "Azul", 2020, "Luis Gomez", 23000.0);
-vehiculos[indice++]= new Vehiculo("014", "Jeep", "Renegade", "Verde Oliva", 2022, "JeepOfficial", 29000.0);
-vehiculos[indice++]= new Vehiculo("015", "Hyundai", "Tucson", "Gris", 2023, "HyundaiNorte", 32000.0);
-vehiculos[indice++]= new Vehiculo("016", "Nissan", "Sentra", "Blanco", 2021, "TaxiVip", 20000.0);
-vehiculos[indice++]= new Vehiculo("017", "BMW", "Serie 3", "Negro", 2021, "Ejecutivo SA", 45000.0);
-vehiculos[indice++]= new Vehiculo("018", "Audi", "Q3", "Plata", 2022, "PremiumCars", 42000.0);
-vehiculos[indice++]= new Vehiculo("019", "Peugeot", "208", "Azul", 2023, "FrancesaAutos", 18000.0);
-vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "ImportadoraChin", 16000.0);
+        vehiculos[indice++]= new Vehiculo("003", "Kia", "Picanto", "Rojo", 2024, "KiaMotors", 13000.0);
+        vehiculos[indice++]= new Vehiculo("004", "Hyundai", "Accent", "Azul", 2021, "Maria Lopez", 17000.0);
+        vehiculos[indice++]= new Vehiculo("005", "Honda", "Civic", "Negro", 2023, "HondaCenter", 28000.0);
+        vehiculos[indice++]= new Vehiculo("006", "Mazda", "3", "Gris", 2022, "Carlos Ruiz", 24000.0);
+        vehiculos[indice++]= new Vehiculo("007", "Chevrolet", "Onix", "Naranja", 2023, "ChevroAuto", 16000.0);
+        vehiculos[indice++]= new Vehiculo("008", "Volkswagen", "Gol", "Blanco", 2021, "Pedro Diaz", 14000.0);
+        vehiculos[indice++]= new Vehiculo("009", "Suzuki", "Swift", "Amarillo", 2022, "SuzukiCity", 15000.0);
+        vehiculos[indice++]= new Vehiculo("010", "Toyota", "RAV4", "Verde", 2023, "CamionetasSAC", 35000.0);
+        vehiculos[indice++]= new Vehiculo("011", "Ford", "Ranger", "Negro", 2022, "Empresa Minera", 40000.0);
+        vehiculos[indice++]= new Vehiculo("012", "Renault", "Duster", "Marron", 2021, "Ana Torres", 21000.0);
+        vehiculos[indice++]= new Vehiculo("013", "Subaru", "Impreza", "Azul", 2020, "Luis Gomez", 23000.0);
+        vehiculos[indice++]= new Vehiculo("014", "Jeep", "Renegade", "Verde Oliva", 2022, "JeepOfficial", 29000.0);
+        vehiculos[indice++]= new Vehiculo("015", "Hyundai", "Tucson", "Gris", 2023, "HyundaiNorte", 32000.0);
+        vehiculos[indice++]= new Vehiculo("016", "Nissan", "Sentra", "Blanco", 2021, "TaxiVip", 20000.0);
+        vehiculos[indice++]= new Vehiculo("017", "BMW", "Serie 3", "Negro", 2021, "Ejecutivo SA", 45000.0);
+        vehiculos[indice++]= new Vehiculo("018", "Audi", "Q3", "Plata", 2022, "PremiumCars", 42000.0);
+        vehiculos[indice++]= new Vehiculo("019", "Peugeot", "208", "Azul", 2023, "FrancesaAutos", 18000.0);
+        vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "ImportadoraChin", 16000.0);
     }
 
     @Override
@@ -45,7 +45,6 @@ vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "Import
         if(obj instanceof Vehiculo) vehiculos[indice++] = (Vehiculo) obj;
     }
 
-    // Soporte para REQ 4: Seleccionar vehículo disponible
     public Vehiculo[] listarDisponibles() {
         int count = 0;
         for(int i=0; i<indice; i++) {
@@ -59,7 +58,6 @@ vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "Import
         return temporal;
     }
     
-    // Soporte para REQ 9: Reporte de vendidos y disponibles
     public String reporteEstado() {
         int disp = 0, vend = 0;
         for(int i=0; i<indice; i++) {
@@ -69,7 +67,6 @@ vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "Import
         return "Disponibles: " + disp + " | Vendidos: " + vend;
     }
 
-    // Resto de métodos CRUD...
     @Override public void eliminar(String codigo) {// 1. Buscar la posición del vehículo
         int pos = -1;
         for(int i = 0; i < indice; i++) {
@@ -79,26 +76,22 @@ vehiculos[indice++]= new Vehiculo("020", "Chery", "Tiggo", "Rojo", 2022, "Import
             }
         }
 
-        // 2. Si lo encontramos, lo eliminamos
         if(pos != -1) {
-            // Movemos todos los de la derecha una posición a la izquierda
             for(int k = pos; k < indice - 1; k++) {
                 vehiculos[k] = vehiculos[k + 1];
             }
-            // Borramos el último rastro y bajamos el contador
             vehiculos[indice - 1] = null;
             indice--;
         }}
     @Override public void modificar(Object obj) {
-        if(obj instanceof clases.Vehiculo) {
-            clases.Vehiculo nuevoAuto = (clases.Vehiculo) obj;
+        if (obj instanceof clases.Vehiculo) {
+            clases.Vehiculo vehiculoNuevo = (clases.Vehiculo) obj;
             
-            // Recorremos el arreglo para encontrar el auto original usando el CÓDIGO
-            for(int i = 0; i < indice; i++) {
-                // Si los códigos coinciden, este es el que debemos actualizar
-                if(vehiculos[i].getCodigo().equals(nuevoAuto.getCodigo())) {
-                    vehiculos[i] = nuevoAuto; // ¡AQUÍ OCURRE EL REEMPLAZO!
-                    break; // Ya lo encontramos, dejamos de buscar
+            for (int i = 0; i < indice; i++) {
+              
+                if (vehiculos[i].getCodigo().equals(vehiculoNuevo.getCodigo())) {
+                    vehiculos[i] = vehiculoNuevo; 
+                    return; 
                 }
             }
         }

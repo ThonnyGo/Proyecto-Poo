@@ -15,6 +15,6 @@ public interface Mantenimiento {
     void modificar(Object obj);
     Object buscar(String codigo);
     Object[] listar();
-    int cantidad();
+    int cantidad(); 
 }
 

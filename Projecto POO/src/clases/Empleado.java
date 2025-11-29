@@ -8,7 +8,7 @@ package clases;
  *
  * @author fsg20
  */
-public abstract class Empleado extends Persona{
+public abstract class Empleado extends Persona {
     protected String usuario;
     protected String password;
     protected String rol; // "Administrador" o "Vendedor"
@@ -60,12 +60,13 @@ public abstract class Empleado extends Persona{
         this.apellidos = apellidos;
     }
 
-    // Lógica para el REQ 10: Login
+    
     public boolean autenticar(String user, String pass) {
         return this.usuario.equals(user) && this.password.equals(pass);
     }
     
     public String getRol() { return rol; }
+    
 }
 
 

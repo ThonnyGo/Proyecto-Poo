@@ -10,7 +10,7 @@ import java.util.Calendar;
  *
  * @author rauly
  */
-public class Venta {
+public class Venta implements Interfaces.IReporte {
     private String codigoVenta;
     private Cotizacion cotizacion;
     private Pago[] pagos; 
@@ -18,24 +18,23 @@ public class Venta {
     private double saldoPendiente;
     private Calendar fechaVenta;
 
-    // MODIFICADO: Ahora pedimos Método de Pago y el Monto Inicial
+   
     public Venta(String codigoVenta, Cotizacion cotizacion, String metodoPago, double montoInicial) {
         this.codigoVenta = codigoVenta;
         this.cotizacion = cotizacion;
         this.fechaVenta = Calendar.getInstance();
         
-        // 1. Al inicio, el saldo pendiente es el TOTAL de la cotización
+       
         this.saldoPendiente = cotizacion.getMontoTotal();
         
-        // 2. Inicializamos el arreglo de pagos
+       
         this.pagos = new Pago[10]; 
         this.idxPagos = 0;
 
-        // 3. Registramos el PAGO INICIAL (Esto cumple el Req 7)
-        // El método agregarPago se encarga de restar esto del saldo pendiente
+       
         agregarPago(metodoPago, montoInicial);
 
-        // 4. Cambiamos el estado del auto a Vendido (Req 5)
+      
         this.cotizacion.getVehiculo().setEstado("Vendido");
     }
 
@@ -48,7 +47,7 @@ public class Venta {
         }
     }
     
-    // ... (Mantén tus getters, setters y el método generarComprobante igual) ...
+   
     
     public String generarComprobante() {
         StringBuilder sb = new StringBuilder();
@@ -117,6 +116,12 @@ public class Venta {
 
     public void setFechaVenta(Calendar fechaVenta) {
         this.fechaVenta = fechaVenta;
+    }
+
+    @Override
+    public String generarDetalleImpresion() {
+        // En vez de lanzar error, llamamos a tu método que ya funciona
+        return generarComprobante(); 
     }
     
 }

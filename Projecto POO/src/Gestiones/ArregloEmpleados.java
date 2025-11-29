@@ -20,12 +20,10 @@ public class ArregloEmpleados implements Mantenimiento{
     public ArregloEmpleados() {
         this.empleados = new Empleado[50];
         this.indice = 0;
-        // Usuario por defecto para poder entrar al sistema (REQ 10)
-        agregar(new Administrador("001", "Anthony", "Garcia", "admin", "123"));
-        agregar(new Vendedor("002", "Flavio", "De Souza", "vend", "123"));
+        empleados[indice++]=new Administrador("001", "Anthony", "Garcia", "admin", "123");
+        empleados[indice++]=new Vendedor("002", "Flavio", "De Souza", "vend", "123");
     }
 
-    // REQ 10: Mecanismo de Autenticación
     public Empleado iniciarSesion(String user, String pass) {
         for(int i=0; i<indice; i++) {
             if(empleados[i].autenticar(user, pass)) {
@@ -41,8 +39,6 @@ public class ArregloEmpleados implements Mantenimiento{
             empleados[indice++] = (Empleado) obj;
         }
     }
-    // Métodos obligatorios de la interfaz (Modificar, Eliminar, Buscar, Listar)...
-    // Implementar lógica básica de arrays aquí (bucles for)
     @Override public void eliminar(String dni) { 
         // 1. Buscar la posición
         int pos = -1;
@@ -63,12 +59,14 @@ public class ArregloEmpleados implements Mantenimiento{
         }
     }
     @Override public void modificar(Object obj) {
-        if(obj instanceof clases.Empleado) {
+        if (obj instanceof clases.Empleado) {
             clases.Empleado empNuevo = (clases.Empleado) obj;
-            for(int i=0; i < indice; i++) {
-                if(empleados[i].getDni().equals(empNuevo.getDni())) {
-                    empleados[i] = empNuevo;
-                    break;
+            
+            for (int i = 0; i < indice; i++) {
+                // Buscamos por DNI
+                if (empleados[i].getDni().equals(empNuevo.getDni())) {
+                    empleados[i] = empNuevo; // Reemplazamos
+                    return;
                 }
             }
         }
