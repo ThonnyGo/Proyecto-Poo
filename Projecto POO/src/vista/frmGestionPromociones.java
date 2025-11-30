@@ -180,82 +180,82 @@ public class frmGestionPromociones extends javax.swing.JFrame {
     private void txtVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVigenciaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtVigenciaActionPerformed
-void listarPromociones() {
-    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-   // Definimos las columnas
-    modelo.addColumn("Nombre");
-    modelo.addColumn("Tipo");
-    modelo.addColumn("Valor");
-    modelo.addColumn("Vigencia");
+    void listarPromociones() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        // Definimos las columnas
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Valor");
+        modelo.addColumn("Vigencia");
 
-    // Traemos los datos
-    Object[] datos = Principal.gestorPromociones.listar();
+        // Traemos los datos
+        Object[] datos = Principal.gestorPromociones.listar();
 
-    // Recorremos y llenamos
-    for (int i = 0; i < Principal.gestorPromociones.cantidad(); i++) {
-        clases.Promocion p = (clases.Promocion) datos[i];
-        
-        // AQUÍ ESTÁ EL CAMBIO: Usamos los getters reales
-        modelo.addRow(new Object[]{ 
-            p.getNombre(),    // Columna 1
-            p.getTipo(),      // Columna 2 (Saldrá "Porcentaje" o "Monto Fijo")
-            p.getValor(),     // Columna 3 (Saldrá el número, ej. 50.0)
-            p.getVigencia()   // Columna 4 (Saldrá la fecha que pusiste)
-        }); 
+        // Recorremos y llenamos
+        for (int i = 0; i < Principal.gestorPromociones.cantidad(); i++) {
+            clases.Promocion p = (clases.Promocion) datos[i];
+
+            // AQUÍ ESTÁ EL CAMBIO: Usamos los getters reales
+            modelo.addRow(new Object[]{
+                p.getNombre(), // Columna 1
+                p.getTipo(), // Columna 2 (Saldrá "Porcentaje" o "Monto Fijo")
+                p.getValor(), // Columna 3 (Saldrá el número, ej. 50.0)
+                p.getVigencia() // Columna 4 (Saldrá la fecha que pusiste)
+            });
+        }
+        tblPromociones.setModel(modelo);
     }
-    tblPromociones.setModel(modelo);
-}
 
-void limpiarCampos() {
-    txtNombre.setText("");
-    txtValor.setText("");
-    txtVigencia.setText("");
-    txtNombre.requestFocus();
-}
+    void limpiarCampos() {
+        txtNombre.setText("");
+        txtValor.setText("");
+        txtVigencia.setText("");
+        txtNombre.requestFocus();
+    }
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         try {
-        String nom = txtNombre.getText();
-        String tipo = cboTipo.getSelectedItem().toString();
-        double val = Double.parseDouble(txtValor.getText());
-        String vig = txtVigencia.getText();
+            String nom = txtNombre.getText();
+            String tipo = cboTipo.getSelectedItem().toString();
+            double val = Double.parseDouble(txtValor.getText());
+            String vig = txtVigencia.getText();
 
-        clases.Promocion promo = new clases.Promocion(nom, tipo, val, vig);
+            clases.Promocion promo = new clases.Promocion(nom, tipo, val, vig);
 
-        Principal.gestorPromociones.agregar(promo);
+            Principal.gestorPromociones.agregar(promo);
 
-        listarPromociones();
-        limpiarCampos();
-        javax.swing.JOptionPane.showMessageDialog(this, "Promoción Registrada");
-        
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Revise los datos numéricos");
-    }
+            listarPromociones();
+            limpiarCampos();
+            javax.swing.JOptionPane.showMessageDialog(this, "Promoción Registrada");
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Revise los datos numéricos");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         String nombre = txtNombre.getText();
-    
-    // 2. VALIDACIÓN: Si está vacío, mostramos la ventanita de alerta
-    if (nombre.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Por favor, escriba el NOMBRE de la promoción a eliminar.");
-        return; // Aquí se detiene el código y no borra nada
-    }
-    
-    // 3. Confirmación de seguridad (Opcional pero recomendado)
-    int rpta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar la promoción '" + nombre + "'?");
-    
-    if (rpta == 0) { // Si dijo SÍ (0)
-        // 4. Procedemos a eliminar
-        Principal.gestorPromociones.eliminar(nombre);
-        
-        // 5. Actualizamos la tabla
-        listarPromociones();
-        limpiarCampos();
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Promoción eliminada correctamente.");
-    }
+
+        // 2. VALIDACIÓN: Si está vacío, mostramos la ventanita de alerta
+        if (nombre.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, escriba el NOMBRE de la promoción a eliminar.");
+            return; // Aquí se detiene el código y no borra nada
+        }
+
+        // 3. Confirmación de seguridad (Opcional pero recomendado)
+        int rpta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar la promoción '" + nombre + "'?");
+
+        if (rpta == 0) { // Si dijo SÍ (0)
+            // 4. Procedemos a eliminar
+            Principal.gestorPromociones.eliminar(nombre);
+
+            // 5. Actualizamos la tabla
+            listarPromociones();
+            limpiarCampos();
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Promoción eliminada correctamente.");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -268,24 +268,24 @@ void limpiarCampos() {
     }//GEN-LAST:event_cboTipoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String nombre = txtNombre.getText(); 
-    
-    if (nombre.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Busque primero por Nombre");
-        return;
-    }
+        String nombre = txtNombre.getText();
 
-    String tipo = cboTipo.getSelectedItem().toString();
-    double valor = Double.parseDouble(txtValor.getText());
-    String vigencia = txtVigencia.getText();
+        if (nombre.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Busque primero por Nombre");
+            return;
+        }
 
-    clases.Promocion promoEditada = new clases.Promocion(nombre, tipo, valor, vigencia);
+        String tipo = cboTipo.getSelectedItem().toString();
+        double valor = Double.parseDouble(txtValor.getText());
+        String vigencia = txtVigencia.getText();
 
-    Principal.gestorPromociones.modificar(promoEditada);
-    
-    listarPromociones();
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Promoción editada.");
+        clases.Promocion promoEditada = new clases.Promocion(nombre, tipo, valor, vigencia);
+
+        Principal.gestorPromociones.modificar(promoEditada);
+
+        listarPromociones();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Promoción editada.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

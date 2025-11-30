@@ -12,11 +12,11 @@ import java.util.Calendar;
  */
 public class Cotizacion {
     private String codigo;
-    private Cliente cliente;      // Dato Cliente (Req 4)
-    private Vendedor vendedor;    // Dato Vendedor (Req 4)
-    private Vehiculo vehiculo;    // Dato Vehículo (Req 4)
-    private Promocion promocion;  // Descuento (Req 4)
-    private double montoTotal;    // Monto Final (Req 4)
+    private Cliente cliente;      
+    private Vendedor vendedor;    
+    private Vehiculo vehiculo;    
+    private Promocion promocion;  
+    private double montoTotal;    
     private Calendar fecha;
 
     public Cotizacion(String codigo, Cliente cliente, Vendedor vendedor, Vehiculo vehiculo, Promocion promocion) {

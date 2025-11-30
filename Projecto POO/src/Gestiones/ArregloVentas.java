@@ -25,12 +25,10 @@ public class ArregloVentas implements Mantenimiento {
         this.idxCoti = 0;
     }
 
-    // REQ 4: Guardar Cotización
     public void registrarCotizacion(Cotizacion c) {
         if(idxCoti < cotizaciones.length) cotizaciones[idxCoti++] = c;
     }
 
-    // REQ 5: Registrar Venta
     @Override
     public void agregar(Object obj) {
         if(obj instanceof Venta) {
@@ -38,7 +36,6 @@ public class ArregloVentas implements Mantenimiento {
         }
     }
 
-    // REQ 9: Reporte de Ingresos Totales
     public double reportarIngresos() {
         double total = 0;
         for(int i=0; i<idxVenta; i++) {

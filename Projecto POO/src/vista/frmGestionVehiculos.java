@@ -228,42 +228,42 @@ public class frmGestionVehiculos extends javax.swing.JFrame {
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
-void listarVehiculos() {
-    javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-    modelo.addColumn("Código");
-    modelo.addColumn("Marca");
-    modelo.addColumn("Modelo");
-    modelo.addColumn("Tipo");
-    modelo.addColumn("Precio");
-    modelo.addColumn("Estado");
+    void listarVehiculos() {
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("Código");
+        modelo.addColumn("Marca");
+        modelo.addColumn("Modelo");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Estado");
 
-    Object[] datos = Principal.gestorVehiculos.listar();
+        Object[] datos = Principal.gestorVehiculos.listar();
 
-    for (int i = 0; i < Principal.gestorVehiculos.cantidad(); i++) {
-        clases.Vehiculo v = (clases.Vehiculo) datos[i];
-        modelo.addRow(new Object[]{
-            v.getCodigo(),
-            v.getMarca(),
-            v.getModelo(),
-            v.getDetalle(), // O v.getTipo() si creaste el getter
-            v.getPrecioBase(),
-            v.getEstado()
-        });
+        for (int i = 0; i < Principal.gestorVehiculos.cantidad(); i++) {
+            clases.Vehiculo v = (clases.Vehiculo) datos[i];
+            modelo.addRow(new Object[]{
+                v.getCodigo(),
+                v.getMarca(),
+                v.getModelo(),
+                v.getDetalle(), // O v.getTipo() si creaste el getter
+                v.getPrecioBase(),
+                v.getEstado()
+            });
+        }
+        tblVehiculos.setModel(modelo);
     }
-    tblVehiculos.setModel(modelo);
-}
 
-void limpiarCampos() {
-    txtCodigo.setText("");
-    txtMarca.setText("");
-    txtModelo.setText("");
-    txtColor.setText("");
-    txtAnio.setText("");
-    txtPrecio.setText("");
-    cboTipo.setSelectedIndex(0);
-    cboEstado.setSelectedIndex(0);
-    txtCodigo.requestFocus();
-}
+    void limpiarCampos() {
+        txtCodigo.setText("");
+        txtMarca.setText("");
+        txtModelo.setText("");
+        txtColor.setText("");
+        txtAnio.setText("");
+        txtPrecio.setText("");
+        cboTipo.setSelectedIndex(0);
+        cboEstado.setSelectedIndex(0);
+        txtCodigo.requestFocus();
+    }
     private void cboEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboEstadoActionPerformed
@@ -271,107 +271,107 @@ void limpiarCampos() {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String codigo = txtCodigo.getText();
-    
-    // Buscar en la memoria
-    clases.Vehiculo v = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigo);
-    
-    if(v != null) {
-        txtMarca.setText(v.getMarca());
-        txtModelo.setText(v.getModelo());
-        txtColor.setText(v.getDetalle()); // Ojo aquí, usa el getter de color si lo tienes, o ajusta
-        txtAnio.setText(String.valueOf(v.getDetalle())); // Ajusta con v.getAnio() si creaste el getter
-        txtPrecio.setText(String.valueOf(v.getPrecioBase()));
-        cboTipo.setSelectedItem(v.getDetalle()); // Ajusta con v.getTipo()
-        cboEstado.setSelectedItem(v.getEstado());
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo no encontrado");
-    }
+
+        // Buscar en la memoria
+        clases.Vehiculo v = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigo);
+
+        if (v != null) {
+            txtMarca.setText(v.getMarca());
+            txtModelo.setText(v.getModelo());
+            txtColor.setText(v.getDetalle()); // Ojo aquí, usa el getter de color si lo tienes, o ajusta
+            txtAnio.setText(String.valueOf(v.getDetalle())); // Ajusta con v.getAnio() si creaste el getter
+            txtPrecio.setText(String.valueOf(v.getPrecioBase()));
+            cboTipo.setSelectedItem(v.getDetalle()); // Ajusta con v.getTipo()
+            cboEstado.setSelectedItem(v.getEstado());
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Vehículo no encontrado");
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         try {
-        // 1. Capturar (Con conversión de números)
-        String cod = txtCodigo.getText();
-        String mar = txtMarca.getText();
-        String mod = txtModelo.getText();
-        String col = txtColor.getText();
-        int anio = Integer.parseInt(txtAnio.getText());
-        double pre = Double.parseDouble(txtPrecio.getText());
-        String tipo = cboTipo.getSelectedItem().toString();
+            // 1. Capturar (Con conversión de números)
+            String cod = txtCodigo.getText();
+            String mar = txtMarca.getText();
+            String mod = txtModelo.getText();
+            String col = txtColor.getText();
+            int anio = Integer.parseInt(txtAnio.getText());
+            double pre = Double.parseDouble(txtPrecio.getText());
+            String tipo = cboTipo.getSelectedItem().toString();
 
-        // 2. Crear Objeto
-        clases.Vehiculo auto = new clases.Vehiculo(cod, mar, mod, col, anio, tipo, pre);
-        
-        // Estado inicial
-        auto.setEstado(cboEstado.getSelectedItem().toString());
+            // 2. Crear Objeto
+            clases.Vehiculo auto = new clases.Vehiculo(cod, mar, mod, col, anio, tipo, pre);
 
-        // 3. Guardar
-        Principal.gestorVehiculos.agregar(auto);
+            // Estado inicial
+            auto.setEstado(cboEstado.getSelectedItem().toString());
 
-        // 4. Actualizar
-        listarVehiculos();
-        limpiarCampos();
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo Agregado!");
-        
-    } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "El Año y Precio deben ser números");
-    }
+            // 3. Guardar
+            Principal.gestorVehiculos.agregar(auto);
+
+            // 4. Actualizar
+            listarVehiculos();
+            limpiarCampos();
+            javax.swing.JOptionPane.showMessageDialog(this, "Vehículo Agregado!");
+
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "El Año y Precio deben ser números");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         String codigo = txtCodigo.getText();
-    
-    // Validación simple
-    if (codigo.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Escriba el código del vehículo a eliminar");
-        return;
-    }
-    
-    // Confirmación (Opcional pero recomendada)
-    int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "¿Seguro que desea eliminar el vehículo " + codigo + "?");
-            
-    if (confirmacion == 0) { // 0 significa SI
-        
-        // 2. Eliminar del arreglo (Llama al código que acabamos de arreglar)
-        Principal.gestorVehiculos.eliminar(codigo);
-        
-        // 3. ¡IMPORTANTE! Refrescar la tabla para que desaparezca visualmente
-        listarVehiculos(); 
-        
-        // 4. Limpiar las cajas
-        limpiarCampos();
-        
-        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente.");
-    }
+
+        // Validación simple
+        if (codigo.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Escriba el código del vehículo a eliminar");
+            return;
+        }
+
+        // Confirmación (Opcional pero recomendada)
+        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Seguro que desea eliminar el vehículo " + codigo + "?");
+
+        if (confirmacion == 0) { // 0 significa SI
+
+            // 2. Eliminar del arreglo (Llama al código que acabamos de arreglar)
+            Principal.gestorVehiculos.eliminar(codigo);
+
+            // 3. ¡IMPORTANTE! Refrescar la tabla para que desaparezca visualmente
+            listarVehiculos();
+
+            // 4. Limpiar las cajas
+            limpiarCampos();
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente.");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-    String codigo = txtCodigo.getText();
-    
-    if (codigo.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Primero BUSQUE el vehículo por código.");
-        return;
-    }
+        String codigo = txtCodigo.getText();
 
-    String marca = txtMarca.getText();
-    String modelo = txtModelo.getText();
-    String color = txtColor.getText();
-    int anio = Integer.parseInt(txtAnio.getText());
-    double precio = Double.parseDouble(txtPrecio.getText());
-    String tipo = cboTipo.getSelectedItem().toString();
-    String estado = cboEstado.getSelectedItem().toString();
+        if (codigo.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Primero BUSQUE el vehículo por código.");
+            return;
+        }
 
-    clases.Vehiculo autoEditado = new clases.Vehiculo(codigo, marca, modelo, color, anio, tipo, precio);
-    autoEditado.setEstado(estado);
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        String color = txtColor.getText();
+        int anio = Integer.parseInt(txtAnio.getText());
+        double precio = Double.parseDouble(txtPrecio.getText());
+        String tipo = cboTipo.getSelectedItem().toString();
+        String estado = cboEstado.getSelectedItem().toString();
 
-    Principal.gestorVehiculos.modificar(autoEditado);
+        clases.Vehiculo autoEditado = new clases.Vehiculo(codigo, marca, modelo, color, anio, tipo, precio);
+        autoEditado.setEstado(estado);
 
-    listarVehiculos();
-    limpiarCampos();
-    javax.swing.JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente.");
+        Principal.gestorVehiculos.modificar(autoEditado);
+
+        listarVehiculos();
+        limpiarCampos();
+        javax.swing.JOptionPane.showMessageDialog(this, "Vehículo actualizado correctamente.");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

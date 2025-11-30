@@ -51,9 +51,20 @@ public class Cliente extends Persona {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
     
-    // Getters necesarios para Cotización (Req 4)
-    public String getCorreo() { return correo; }
-    public String getDireccion() { return direccion; }
+    public String getCorreo() { 
+        return correo; 
+    }
+    public String getDireccion() { 
+        return direccion; 
+    }
     @Override public String getTipoPersona() { return "Cliente"; }
 }

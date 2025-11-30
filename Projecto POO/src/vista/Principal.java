@@ -18,7 +18,6 @@ public class Principal {
     public static ArregloClientes gestorClientes = new ArregloClientes();
     public static ArregloVentas gestorVentas = new ArregloVentas();
     public static ArregloPromociones gestorPromociones = new ArregloPromociones();
-    
     public static clases.Empleado empleadoAutenticado;
     public static ArregloReservas gestorReservas = new ArregloReservas();
     public static GestorReservasTemporizador temporizadorReservas =
@@ -32,7 +31,6 @@ public class Principal {
         } catch (Exception e) {
 
         }
-        // Al ejecutar, arrancamos el LOGIN directamente
         frmLogin login = new frmLogin();
         login.setVisible(true);
     }

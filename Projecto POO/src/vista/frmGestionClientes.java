@@ -30,12 +30,12 @@ public class frmGestionClientes extends javax.swing.JFrame {
 
         for (int i = 0; i < Principal.gestorClientes.cantidad(); i++) {
             clases.Cliente c = (clases.Cliente) datos[i];
-            // Concatenamos los nombres para que se vea bien en la tabla
+            
             modelo.addRow(new Object[]{
                 c.getDni(),
                 c.getNombres() + " " + c.getApellidos(),
-                c.getTelefono(), // Asegúrate de tener este getter en Cliente.java
-                c.getCorreo() // Asegúrate de tener este getter en Cliente.java
+                c.getTelefono(), 
+                c.getCorreo() 
             });
         }
         tblClientes.setModel(modelo);
@@ -247,16 +247,10 @@ public class frmGestionClientes extends javax.swing.JFrame {
             return;
         }
 
-        // 2. Crear Cliente (OJO: El constructor de Cliente pide Paterno y Materno)
-        // Si en tu clase Cliente solo tienes "apellidos" juntos, júntalos aquí:
-        // clases.Cliente c = new clases.Cliente(dni, nom, pat + " " + mat, dir, tel, mail);
-        // Si tu constructor los pide separados (como pide el PDF), úsalo así:
         clases.Cliente c = new clases.Cliente(dni, nom, pat, mat, dir, tel, mail);
 
-        // 3. Guardar
         Principal.gestorClientes.agregar(c);
 
-        // 4. Actualizar
         listarClientes();
         limpiarCampos();
         javax.swing.JOptionPane.showMessageDialog(this, "Cliente Registrado Exitosamente");
@@ -270,12 +264,10 @@ public class frmGestionClientes extends javax.swing.JFrame {
 
         if (c != null) {
             txtNombres.setText(c.getNombres());
-            // Como guardamos los apellidos juntos o separados depende de tu clase,
-            // aquí asumimos que los muestras en la caja de Paterno para editar
             txtPaterno.setText(c.getApellidos());
-            txtDireccion.setText(c.getDireccion()); // Necesitas getter
-            txtTelefono.setText(c.getTelefono());   // Necesitas getter
-            txtCorreo.setText(c.getCorreo());       // Necesitas getter
+            txtDireccion.setText(c.getDireccion()); 
+            txtTelefono.setText(c.getTelefono());   
+            txtCorreo.setText(c.getCorreo());       
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Cliente no encontrado");
         }

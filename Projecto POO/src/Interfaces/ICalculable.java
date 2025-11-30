@@ -9,5 +9,5 @@ package Interfaces;
  * @author rauly
  */
 public interface ICalculable {
-    double calcularPrecioFinal(double precioBase);
+    double calcularDescuento(double precioBase);
 }

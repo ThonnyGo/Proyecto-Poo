@@ -251,7 +251,8 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
     }//GEN-LAST:event_cboRolActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:// 1. Obtener el DNI a buscar
+        // TODO add your handling code here:
+        // 1. Obtener el DNI a buscar
         String dniBuscado = txtDni.getText().trim();
 
         if (dniBuscado.isEmpty()) {
