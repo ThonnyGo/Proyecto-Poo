@@ -19,6 +19,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         initComponents();
         listarVehiculosDisponibles(); 
         cargarPromociones();
+        listarReservas();
         this.setLocationRelativeTo(null);
     }
     void cargarPromociones() {
@@ -30,6 +31,35 @@ public class frmProcesarVenta extends javax.swing.JFrame {
             clases.Promocion p = (clases.Promocion) promos[i];
             cboPromocion.addItem(p.getNombre());
         }
+    }
+    void listarReservas() {
+        // 1. Definir los títulos de las columnas
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
+        modelo.addColumn("Cód.");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Vehículo");
+        modelo.addColumn("Tiempo");
+
+        // 2. Traer datos del Gestor
+        Object[] datos = Principal.gestorReservas.listar();
+
+        // 3. Llenar la tabla
+        for (int i = 0; i < Principal.gestorReservas.cantidad(); i++) {
+            clases.Reserva r = (clases.Reserva) datos[i];
+            
+            if (r != null) {
+                modelo.addRow(new Object[]{
+                    r.getCodigo(), // Columna 0: Código
+                    r.getCliente().getNombres(), // Columna 1: Nombre del cliente
+                    // Columna 2: Marca y Modelo juntos para ahorrar espacio
+                    r.getVehiculo().getMarca() + " " + r.getVehiculo().getModelo(), 
+                    r.getHorasDuracion() + " hrs" // Columna 3: Tiempo
+                });
+            }
+        }
+        
+        // 4. Asignar a la tabla visual
+        tblReservas.setModel(modelo);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,7 +85,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         txtPrecioBase = new javax.swing.JTextField();
         txtDescuento = new javax.swing.JTextField();
         txtTotal = new javax.swing.JTextField();
-        btnCotizar = new javax.swing.JButton();
+        btnCotizarActionPerformed = new javax.swing.JButton();
         btnVender = new javax.swing.JButton();
         btnBoleta = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -64,6 +94,13 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         cboMetodoPago = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         txtMontoPagar = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtHorasReserva = new javax.swing.JTextField();
+        btnReservar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblReservas = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,12 +130,12 @@ public class frmProcesarVenta extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarCliente)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addContainerGap(22, Short.MAX_VALUE))
+            .addComponent(txtNombreCliente)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,7 +150,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         tblVehiculos.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,6 +164,11 @@ public class frmProcesarVenta extends javax.swing.JFrame {
 
             }
         ));
+        tblVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVehiculosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblVehiculos);
 
         jLabel3.setText("Vehiculos Disponibles:");
@@ -144,10 +186,10 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         txtTotal.setEditable(false);
         txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        btnCotizar.setText("Cotizar");
-        btnCotizar.addActionListener(new java.awt.event.ActionListener() {
+        btnCotizarActionPerformed.setText("Cotizar");
+        btnCotizarActionPerformed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCotizarActionPerformed(evt);
+                btnCotizarActionPerformedActionPerformed(evt);
             }
         });
 
@@ -180,6 +222,50 @@ public class frmProcesarVenta extends javax.swing.JFrame {
 
         jLabel9.setText("Monto a Pagar:");
 
+        jLabel10.setText("Horas de Reserva:");
+
+        txtHorasReserva.setToolTipText("");
+        txtHorasReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHorasReservaActionPerformed(evt);
+            }
+        });
+
+        btnReservar.setForeground(new java.awt.Color(255, 204, 153));
+        btnReservar.setText("Reservar  Vehiculo");
+        btnReservar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReservarActionPerformed(evt);
+            }
+        });
+
+        tblReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Cód. Reserva", "Cliente", "Vehículo", "Duración"
+            }
+        ));
+        tblReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblReservasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblReservas);
+
+        jLabel11.setText("Lista de Reservas Activas:");
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,87 +273,125 @@ public class frmProcesarVenta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
+                        .addGap(22, 22, 22)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtHorasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel11)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnReservar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnCotizarActionPerformed)
+                            .addComponent(btnLimpiar))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(49, 49, 49)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecioBase, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(91, 91, 91)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(49, 49, 49)
+                                            .addComponent(txtDescuento))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(3, 3, 3)
+                                            .addComponent(jLabel6)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(txtPrecioBase, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(31, 31, 31)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cboPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
+                                .addGap(13, 13, 13)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cboMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnVender)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel9)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(btnCotizar)
-                        .addGap(314, 314, 314)
-                        .addComponent(btnBoleta)))
-                .addContainerGap(160, Short.MAX_VALUE))
+                                            .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(48, 48, 48)
+                                .addComponent(btnBoleta)))))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
+                        .addGap(17, 17, 17)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtHorasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtPrecioBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
-                            .addComponent(cboPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCotizar)
-                    .addComponent(btnBoleta)
-                    .addComponent(jLabel8)
-                    .addComponent(cboMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnVender)
-                .addContainerGap(58, Short.MAX_VALUE))
+                            .addComponent(cboPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(cboMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBoleta)
+                            .addComponent(btnCotizarActionPerformed))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnVender)))
+                .addGap(223, 390, Short.MAX_VALUE))
         );
 
         pack();
@@ -301,7 +425,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
-    private void btnCotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformed
+    private void btnCotizarActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotizarActionPerformedActionPerformed
         // TODO add your handling code here:
      // 1. Validaciones básicas
      
@@ -309,14 +433,23 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, "Busque un cliente primero");
         return;
     }
-    if (tblVehiculos.getSelectedRow() == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un auto");
-        return;
+    // 2. LÓGICA MIXTA PARA EL VEHÍCULO (CAMBIO IMPORTANTE)
+    // Escenario A: Si NO hemos seleccionado nada de la reserva...
+    if (vehiculoSeleccionado == null) {
+        // ... entonces obligamos a seleccionar de la tabla de disponibles
+        int fila = tblVehiculos.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un auto de la lista o una reserva.");
+            return;
+        }
+        // Obtenemos el auto de la tabla
+        String codigoAuto = tblVehiculos.getValueAt(fila, 0).toString();
+        vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
     }
+    // Escenario B: Si 'vehiculoSeleccionado' YA TIENE DATOS (porque dimos click en Reserva),
+    // el código se salta el 'if' anterior y sigue directo. ¡Magia!
 
-    // 2. Obtener Auto
-    String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
-    vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
+    // 3. Obtener Precio Base (Igual que antes)
     double precio = vehiculoSeleccionado.getPrecioBase();
 
     // 3. LÓGICA DE PROMOCIÓN (CORREGIDA)
@@ -361,7 +494,7 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     cotizacionActual = new clases.Cotizacion(codCotizacion, clienteSeleccionado, vendedor, vehiculoSeleccionado, promoSeleccionada);
 
     javax.swing.JOptionPane.showMessageDialog(this, "Cotización generada. Total: $" + total);
-    }//GEN-LAST:event_btnCotizarActionPerformed
+    }//GEN-LAST:event_btnCotizarActionPerformedActionPerformed
     
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
     // 1. Validaciones previas...
@@ -429,6 +562,133 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     private void cboPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPromocionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboPromocionActionPerformed
+
+    private void txtHorasReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHorasReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHorasReservaActionPerformed
+
+    private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
+        // TODO add your handling code here:
+        if (clienteSeleccionado == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un Cliente.");
+        return;
+    }
+    if (tblVehiculos.getSelectedRow() == -1) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Seleccione un Vehículo de la tabla.");
+        return;
+    }
+
+    // 2. OBTENER DATOS
+    // Obtenemos el auto directamente de la tabla (Columna 0 es código)
+    String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
+    clases.Vehiculo autoParaReservar = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
+    
+    // Obtenemos las horas
+    int horas = 0;
+    try {
+        horas = Integer.parseInt(txtHorasReserva.getText());
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un número válido de horas.");
+        return;
+    }
+
+    // 3. OBTENER VENDEDOR (El que está logueado)
+    clases.Vendedor vendedor;
+    if (Principal.empleadoAutenticado instanceof clases.Vendedor) {
+        vendedor = (clases.Vendedor) Principal.empleadoAutenticado;
+    } else {
+        // Fallback por seguridad
+        vendedor = new clases.Vendedor("000", "Vendedor", "Turno", "v", "1");
+    }
+
+    // 4. CREAR LA RESERVA
+    String codReserva = "R-" + System.currentTimeMillis();
+    
+    clases.Reserva nuevaReserva = new clases.Reserva(
+            codReserva, 
+            autoParaReservar, 
+            clienteSeleccionado, 
+            vendedor, 
+            horas
+    );
+
+    // 5. GUARDAR Y ACTUALIZAR
+    Principal.gestorReservas.agregar(nuevaReserva);
+    
+    // ¡IMPORTANTE! Cambiamos estado a "Reservado" para que nadie más lo compre
+    autoParaReservar.setEstado("Reservado");
+
+    // 6. FEEDBACK AL USUARIO
+    javax.swing.JOptionPane.showMessageDialog(this, 
+            "¡Vehículo RESERVADO con éxito!\n" +
+            "Código: " + codReserva + "\n" +
+            "Duración: " + horas + " horas.");
+
+    // Limpiamos la tabla (el auto desaparecerá de disponibles o cambiará estado)
+    listarVehiculosDisponibles(); 
+    listarReservas();
+    limpiarFormulario(); // (Si tienes este método, úsalo para borrar las cajas)
+    }//GEN-LAST:event_btnReservarActionPerformed
+
+    private void tblReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReservasMouseClicked
+        // TODO add your handling code here:
+        // 1. Obtener la fila seleccionada
+    int fila = tblReservas.getSelectedRow();
+    if (fila == -1) return;
+
+    // 2. Obtener el Código de Reserva (Columna 0)
+    String codReserva = tblReservas.getValueAt(fila, 0).toString();
+
+    // 3. Buscar el objeto Reserva completo en el Gestor
+    clases.Reserva reservaEncontrada = (clases.Reserva) Principal.gestorReservas.buscar(codReserva);
+
+    if (reservaEncontrada != null) {
+        // 4. ¡AQUÍ ESTÁ EL TRUCO! 
+        // Llenamos las variables globales con los datos de la reserva
+        this.clienteSeleccionado = reservaEncontrada.getCliente();
+        this.vehiculoSeleccionado = reservaEncontrada.getVehiculo();
+        
+        // 5. Llenamos visualmente el formulario para que el vendedor lo vea
+        txtDniCliente.setText(clienteSeleccionado.getDni());
+        txtNombreCliente.setText(clienteSeleccionado.getNombres() + " " + clienteSeleccionado.getApellidos());
+        txtDniCliente.setEditable(false); // Bloqueamos para que no lo cambie
+        
+        // 6. Limpiamos la selección de la OTRA tabla para evitar confusiones
+        tblVehiculos.clearSelection();
+        
+        // Mensaje opcional
+        // javax.swing.JOptionPane.showMessageDialog(this, "Datos de la reserva cargados. Puede proceder a Cotizar.");
+    }
+    }//GEN-LAST:event_tblReservasMouseClicked
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        limpiarFormulario(); // Esto borra clienteSeleccionado y vehiculoSeleccionado
+    
+    // Opcional: Dar foco al DNI para empezar de nuevo rápido
+    txtDniCliente.requestFocus();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tblVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculosMouseClicked
+        // TODO add your handling code here:
+        // 1. ¿Le diste clic a algo válido?
+    int fila = tblVehiculos.getSelectedRow();
+    if (fila >= 0) { // Si es mayor a 0, sí seleccionaste una fila
+        
+        // 2. ¡ESTO ES CLAVE! "Apaga" la otra tabla
+        // Le quita el color azul de selección a la tabla de reservas 
+        // para que visualmente sepas que esa ya no cuenta.
+        tblReservas.clearSelection();
+        
+        // 3. Captura el código del auto nuevo que tocaste
+        String codigoAuto = tblVehiculos.getValueAt(fila, 0).toString();
+        
+        // 4. ACTUALIZA LA MEMORIA DEL SISTEMA
+        // Aquí es donde le dices al programa: "Olvida la reserva, 
+        // ahora mi 'vehiculoSeleccionado' es ESTE NUEVO que acabo de tocar".
+        this.vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
+    }
+    }//GEN-LAST:event_tblVehiculosMouseClicked
 // Variables globales para guardar qué eligió el vendedor
     clases.Cliente clienteSeleccionado = null;
     clases.Vehiculo vehiculoSeleccionado = null;
@@ -516,11 +776,15 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBoleta;
     private javax.swing.JButton btnBuscarCliente;
-    private javax.swing.JButton btnCotizar;
+    private javax.swing.JButton btnCotizarActionPerformed;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnReservar;
     private javax.swing.JButton btnVender;
     private javax.swing.JComboBox<String> cboMetodoPago;
     private javax.swing.JComboBox<String> cboPromocion;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -531,9 +795,12 @@ public class frmProcesarVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblReservas;
     private javax.swing.JTable tblVehiculos;
     private javax.swing.JTextField txtDescuento;
     private javax.swing.JTextField txtDniCliente;
+    private javax.swing.JTextField txtHorasReserva;
     private javax.swing.JTextField txtMontoPagar;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtPrecioBase;

@@ -13,7 +13,7 @@ public class ArregloReservas implements Mantenimiento {
     private int indice;
 
     public ArregloReservas() {
-        reservas = new Reserva[100]; // Tamaño inicial configurable
+        reservas = new Reserva[100]; 
         indice = 0;
     }
 
