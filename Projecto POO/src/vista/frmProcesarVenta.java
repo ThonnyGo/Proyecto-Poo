@@ -578,12 +578,9 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         return;
     }
 
-    // 2. OBTENER DATOS
-    // Obtenemos el auto directamente de la tabla (Columna 0 es código)
     String codigoAuto = tblVehiculos.getValueAt(tblVehiculos.getSelectedRow(), 0).toString();
     clases.Vehiculo autoParaReservar = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
     
-    // Obtenemos las horas
     int horas = 0;
     try {
         horas = Integer.parseInt(txtHorasReserva.getText());
@@ -592,16 +589,13 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         return;
     }
 
-    // 3. OBTENER VENDEDOR (El que está logueado)
     clases.Vendedor vendedor;
     if (Principal.empleadoAutenticado instanceof clases.Vendedor) {
         vendedor = (clases.Vendedor) Principal.empleadoAutenticado;
     } else {
-        // Fallback por seguridad
         vendedor = new clases.Vendedor("000", "Vendedor", "Turno", "v", "1");
     }
 
-    // 4. CREAR LA RESERVA
     String codReserva = "R-" + System.currentTimeMillis();
     
     clases.Reserva nuevaReserva = new clases.Reserva(
@@ -612,89 +606,66 @@ public class frmProcesarVenta extends javax.swing.JFrame {
             horas
     );
 
-    // 5. GUARDAR Y ACTUALIZAR
     Principal.gestorReservas.agregar(nuevaReserva);
     
-    // ¡IMPORTANTE! Cambiamos estado a "Reservado" para que nadie más lo compre
     autoParaReservar.setEstado("Reservado");
 
-    // 6. FEEDBACK AL USUARIO
     javax.swing.JOptionPane.showMessageDialog(this, 
             "¡Vehículo RESERVADO con éxito!\n" +
             "Código: " + codReserva + "\n" +
             "Duración: " + horas + " horas.");
 
-    // Limpiamos la tabla (el auto desaparecerá de disponibles o cambiará estado)
     listarVehiculosDisponibles(); 
     listarReservas();
-    limpiarFormulario(); // (Si tienes este método, úsalo para borrar las cajas)
+    limpiarFormulario(); 
     }//GEN-LAST:event_btnReservarActionPerformed
 
     private void tblReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReservasMouseClicked
         // TODO add your handling code here:
-        // 1. Obtener la fila seleccionada
     int fila = tblReservas.getSelectedRow();
     if (fila == -1) return;
 
-    // 2. Obtener el Código de Reserva (Columna 0)
     String codReserva = tblReservas.getValueAt(fila, 0).toString();
 
-    // 3. Buscar el objeto Reserva completo en el Gestor
     clases.Reserva reservaEncontrada = (clases.Reserva) Principal.gestorReservas.buscar(codReserva);
 
     if (reservaEncontrada != null) {
-        // 4. ¡AQUÍ ESTÁ EL TRUCO! 
-        // Llenamos las variables globales con los datos de la reserva
         this.clienteSeleccionado = reservaEncontrada.getCliente();
         this.vehiculoSeleccionado = reservaEncontrada.getVehiculo();
         
-        // 5. Llenamos visualmente el formulario para que el vendedor lo vea
         txtDniCliente.setText(clienteSeleccionado.getDni());
         txtNombreCliente.setText(clienteSeleccionado.getNombres() + " " + clienteSeleccionado.getApellidos());
         txtDniCliente.setEditable(false); // Bloqueamos para que no lo cambie
         
-        // 6. Limpiamos la selección de la OTRA tabla para evitar confusiones
         tblVehiculos.clearSelection();
         
-        // Mensaje opcional
-        // javax.swing.JOptionPane.showMessageDialog(this, "Datos de la reserva cargados. Puede proceder a Cotizar.");
+        javax.swing.JOptionPane.showMessageDialog(this, "Datos de la reserva cargados. Puede proceder a Cotizar.");
     }
     }//GEN-LAST:event_tblReservasMouseClicked
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
-        limpiarFormulario(); // Esto borra clienteSeleccionado y vehiculoSeleccionado
+        limpiarFormulario(); 
     
-    // Opcional: Dar foco al DNI para empezar de nuevo rápido
     txtDniCliente.requestFocus();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tblVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculosMouseClicked
         // TODO add your handling code here:
-        // 1. ¿Le diste clic a algo válido?
     int fila = tblVehiculos.getSelectedRow();
-    if (fila >= 0) { // Si es mayor a 0, sí seleccionaste una fila
+    if (fila >= 0) { 
         
-        // 2. ¡ESTO ES CLAVE! "Apaga" la otra tabla
-        // Le quita el color azul de selección a la tabla de reservas 
-        // para que visualmente sepas que esa ya no cuenta.
         tblReservas.clearSelection();
         
-        // 3. Captura el código del auto nuevo que tocaste
         String codigoAuto = tblVehiculos.getValueAt(fila, 0).toString();
         
-        // 4. ACTUALIZA LA MEMORIA DEL SISTEMA
-        // Aquí es donde le dices al programa: "Olvida la reserva, 
-        // ahora mi 'vehiculoSeleccionado' es ESTE NUEVO que acabo de tocar".
         this.vehiculoSeleccionado = (clases.Vehiculo) Principal.gestorVehiculos.buscar(codigoAuto);
     }
     }//GEN-LAST:event_tblVehiculosMouseClicked
-// Variables globales para guardar qué eligió el vendedor
     clases.Cliente clienteSeleccionado = null;
     clases.Vehiculo vehiculoSeleccionado = null;
     clases.Cotizacion cotizacionActual = null;
-    clases.Venta ventaRealizada = null; // Aquí guardaremos la venta para poder imprimirla después
-    // Método para llenar la tabla SOLO con autos DISPONIBLES
+    clases.Venta ventaRealizada = null; 
     void listarVehiculosDisponibles() {
         javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
         modelo.addColumn("Código");
@@ -703,7 +674,6 @@ public class frmProcesarVenta extends javax.swing.JFrame {
         modelo.addColumn("Precio");
         modelo.addColumn("Tipo");
 
-        // Usamos el método listarDisponibles que creamos en el Arreglo
         Object[] disponibles = Principal.gestorVehiculos.listarDisponibles();
         
         for (Object obj : disponibles) {
@@ -713,28 +683,24 @@ public class frmProcesarVenta extends javax.swing.JFrame {
                 v.getMarca(),
                 v.getModelo(),
                 v.getPrecioBase(),
-                v.getDetalle() // o v.getTipo()
+                v.getTipo()
             });
         }
         tblVehiculos.setModel(modelo);
     }
     void limpiarFormulario() {
-        // Limpiamos cajas de texto
         txtNombreCliente.setText("");
         txtPrecioBase.setText("");
         txtDescuento.setText("");
         txtTotal.setText("");
         
-        // Habilitamos de nuevo la búsqueda
         txtDniCliente.setEditable(true);
         txtDniCliente.setText("");
         
-        // Reseteamos variables temporales
         clienteSeleccionado = null;
         vehiculoSeleccionado = null;
         cotizacionActual = null;
         
-        // Reseteamos combos y tablas
         if(cboPromocion != null) cboPromocion.setSelectedIndex(0);
         tblVehiculos.clearSelection();
     }

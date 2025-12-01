@@ -175,14 +175,9 @@ public class frmReportesAdmin extends javax.swing.JFrame {
         for (int i = 0; i < total; i++) {
             clases.Empleado e = (clases.Empleado) empleados[i];
 
-            // Solo nos interesan los Vendedores, no los Admins
             if (e instanceof clases.Vendedor) {
                 clases.Vendedor v = (clases.Vendedor) e;
-                // Necesitas haber creado un getter para ventasRealizadas en la clase Vendedor
-                // Si no lo tienes, créalo en clases/Vendedor.java: public int getVentasRealizadas() { return ventasRealizadas; }
                 txtResultado.append(" - " + v.getNombres() + " " + v.getApellidos() + "\n");
-                // Si tienes el contador en la clase:
-                // txtResultado.append("   Ventas: " + v.getVentasRealizadas() + "\n\n");
             }
         }
     }//GEN-LAST:event_btnVendedoresActionPerformed

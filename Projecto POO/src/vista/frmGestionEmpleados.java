@@ -266,7 +266,6 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
             txtNombres.setText(emp.getNombres());
             txtApellidos.setText(emp.getApellidos());
             txtUsuario.setText(emp.getUsuario());
-            // Nota: Por seguridad a veces no se muestra la password, pero aquí lo haremos para editar
             txtPassword.setText("****");
             cboRol.setSelectedItem(emp.getRol());
             javax.swing.JOptionPane.showMessageDialog(this, "Empleado Encontrado");
@@ -302,7 +301,6 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         limpiarCampos();
         javax.swing.JOptionPane.showMessageDialog(this, "Empleado registrado con éxito");
     }
-// Método para borrar el texto de las cajitas después de guardar
 
     void limpiarCampos() {
         txtDni.setText("");
