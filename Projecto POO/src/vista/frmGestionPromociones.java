@@ -182,25 +182,21 @@ public class frmGestionPromociones extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVigenciaActionPerformed
     void listarPromociones() {
         javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
-        // Definimos las columnas
         modelo.addColumn("Nombre");
         modelo.addColumn("Tipo");
         modelo.addColumn("Valor");
         modelo.addColumn("Vigencia");
 
-        // Traemos los datos
         Object[] datos = Principal.gestorPromociones.listar();
 
-        // Recorremos y llenamos
         for (int i = 0; i < Principal.gestorPromociones.cantidad(); i++) {
             clases.Promocion p = (clases.Promocion) datos[i];
 
-            // AQUÍ ESTÁ EL CAMBIO: Usamos los getters reales
             modelo.addRow(new Object[]{
-                p.getNombre(), // Columna 1
-                p.getTipo(), // Columna 2 (Saldrá "Porcentaje" o "Monto Fijo")
-                p.getValor(), // Columna 3 (Saldrá el número, ej. 50.0)
-                p.getVigencia() // Columna 4 (Saldrá la fecha que pusiste)
+                p.getNombre(), 
+                p.getTipo(), 
+                p.getValor(),
+                p.getVigencia() 
             });
         }
         tblPromociones.setModel(modelo);

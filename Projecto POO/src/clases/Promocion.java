@@ -23,46 +23,20 @@ public class Promocion  implements ICalculable {
         this.vigencia = vigencia;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public String getVigencia() {
-        return vigencia;
-    }
-
-    public void setVigencia(String vigencia) {
-        this.vigencia = vigencia;
-    }
-
     
-  
+    public String getNombre() { return nombre; }
+    public String getTipo() { return tipo; }
+    public double getValor() { return valor; }
+    public String getVigencia() { return vigencia; }
+
     @Override
     public double calcularDescuento(double precioBase) {
-        if (tipo.equals("Porcentaje")) {
-            return precioBase - (precioBase * valor / 100);
-        } else {
-            return precioBase - valor;
+                if (this.tipo.equalsIgnoreCase("Porcentaje")) {
+            return precioBase * (this.valor / 100);
+        } 
+        
+        else {
+            return this.valor;
         }
     }
         

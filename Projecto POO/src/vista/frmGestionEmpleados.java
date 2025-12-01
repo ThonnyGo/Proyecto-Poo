@@ -253,7 +253,6 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        // 1. Obtener el DNI a buscar
         String dniBuscado = txtDni.getText().trim();
 
         if (dniBuscado.isEmpty()) {
@@ -261,10 +260,8 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
             return;
         }
 
-        // 2. Buscar en el arreglo
         clases.Empleado emp = (clases.Empleado) Principal.gestorEmpleados.buscar(dniBuscado);
 
-        // 3. Mostrar datos si existe
         if (emp != null) {
             txtNombres.setText(emp.getNombres());
             txtApellidos.setText(emp.getApellidos());
@@ -287,13 +284,11 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         String pass = txtPassword.getText();
         String rol = cboRol.getSelectedItem().toString();
 
-        // 2. Validar que no estén vacíos
         if (dni.isEmpty() || user.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Complete los campos obligatorios");
             return;
         }
 
-        // 3. Crear el objeto según el Rol (Polimorfismo)
         clases.Empleado nuevo;
         if (rol.equals("Administrador")) {
             nuevo = new clases.Administrador(dni, nom, ape, user, pass);
@@ -301,10 +296,8 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
             nuevo = new clases.Vendedor(dni, nom, ape, user, pass);
         }
 
-        // 4. Guardar en la memoria global
         Principal.gestorEmpleados.agregar(nuevo);
 
-        // 5. Actualizar la tabla (Debes crear este método listar similar al de Vehículos)
         listarEmpleados();
         limpiarCampos();
         javax.swing.JOptionPane.showMessageDialog(this, "Empleado registrado con éxito");
@@ -320,7 +313,6 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         cboRol.setSelectedIndex(0);
         txtDni.requestFocus(); // Pone el cursor en el primer campo
     }
-// Método auxiliar para listar (ponlo fuera del botón)
 
     void listarEmpleados() {
         javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel();
@@ -351,14 +343,11 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
             return;
         }
 
-        // Confirmación
         int rpta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro de eliminar al empleado?");
 
         if (rpta == 0) {
-            // 1. Eliminar de la memoria
             Principal.gestorEmpleados.eliminar(dni);
 
-            // 2. ACTUALIZAR LA TABLA (Esto es lo que suele faltar)
             listarEmpleados();
             limpiarCampos();
 

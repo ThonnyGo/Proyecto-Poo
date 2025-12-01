@@ -245,7 +245,7 @@ public class frmGestionVehiculos extends javax.swing.JFrame {
                 v.getCodigo(),
                 v.getMarca(),
                 v.getModelo(),
-                v.getDetalle(), // O v.getTipo() si creaste el getter
+                v.getTipo(), // O v.getTipo() si creaste el getter
                 v.getPrecioBase(),
                 v.getEstado()
             });
