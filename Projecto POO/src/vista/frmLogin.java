@@ -101,43 +101,33 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // 1. Capturamos lo que escribió el usuario
+        
         String usuario = txtUsuario.getText();
         String password = new String(txtPassword.getPassword()); // JPasswordField requiere esto
 
-        // 2. Validamos que no estén vacíos
         if (usuario.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
             return;
         }
 
-        // 3. Buscamos al usuario en nuestra "Base de Datos" (Principal)
-        // Usamos el método iniciarSesion que creamos en ArregloEmpleados
         clases.Empleado empleadoLogueado = Principal.gestorEmpleados.iniciarSesion(usuario, password);
 
-        // 4. Verificamos si lo encontró
         if (empleadoLogueado != null) {
-            // ¡Login Exitoso!
             javax.swing.JOptionPane.showMessageDialog(this, "Bienvenido " + empleadoLogueado.getNombres());
 
-            // 5. REQUERIMIENTO 10: Redireccionar según el ROL
             String rol = empleadoLogueado.getRol();
 
             if (rol.equalsIgnoreCase("Administrador")) {
-                // Abrir ventana del Jefe
                 frmAdministrador ventanaAdmin = new frmAdministrador();
                 ventanaAdmin.setVisible(true);
             } else if (rol.equalsIgnoreCase("Vendedor")) {
-                // Abrir ventana del Vendedor
                 frmVendedor ventanaVentas = new frmVendedor();
                 ventanaVentas.setVisible(true);
             }
 
-            // Cerramos la ventana de Login
             this.dispose();
 
         } else {
-            // Usuario o clave incorrectos
             javax.swing.JOptionPane.showMessageDialog(this, "Credenciales incorrectas. Intente de nuevo.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed

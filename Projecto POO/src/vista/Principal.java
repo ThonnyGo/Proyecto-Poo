@@ -12,7 +12,6 @@ import Gestiones.*;
 import javax.swing.UIManager;
 
 public class Principal {
-    // ESTO ES TU "MEMORIA": Arreglos estáticos accesibles desde cualquier ventana
     public static ArregloEmpleados gestorEmpleados = new ArregloEmpleados();
     public static ArregloVehiculos gestorVehiculos = new ArregloVehiculos();
     public static ArregloClientes gestorClientes = new ArregloClientes();

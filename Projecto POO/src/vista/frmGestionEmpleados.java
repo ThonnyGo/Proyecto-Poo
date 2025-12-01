@@ -64,6 +64,7 @@ public class frmGestionEmpleados extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 255, 255));
 
         jLabel1.setText("DNI:");
 

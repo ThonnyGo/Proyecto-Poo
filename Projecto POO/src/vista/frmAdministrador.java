@@ -128,17 +128,13 @@ public class frmAdministrador extends javax.swing.JFrame {
         // TODO add your handling code here:// Crear y mostrar la ventana de Empleados
     frmGestionEmpleados ventanaEmp = new frmGestionEmpleados();
     ventanaEmp.setVisible(true);
-    
-    // Opcional: Si quieres que esta ventana quede encima y centrada
-    ventanaEmp.setLocationRelativeTo(null);
+        ventanaEmp.setLocationRelativeTo(null);
     }//GEN-LAST:event_mitEmpleadosActionPerformed
 
     private void mitVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitVehiculosActionPerformed
         // TODO add your handling code here:                                           
-    // Abrir la ventana de gestión de autos
     frmGestionVehiculos ventanaAutos = new frmGestionVehiculos();
     ventanaAutos.setVisible(true);
-    // Nota: No cerramos (dispose) el menú principal, para poder volver
 
     }//GEN-LAST:event_mitVehiculosActionPerformed
 
@@ -152,7 +148,7 @@ public class frmAdministrador extends javax.swing.JFrame {
 
     private void mitReporteGeneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitReporteGeneraActionPerformed
         // TODO add your handling code here:
-        frmReportesAdmin reporte = new frmReportesAdmin();
+    frmReportesAdmin reporte = new frmReportesAdmin();
     reporte.setVisible(true);
     reporte.setLocationRelativeTo(null);
     }//GEN-LAST:event_mitReporteGeneraActionPerformed
