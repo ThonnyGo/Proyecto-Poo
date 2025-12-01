@@ -94,12 +94,10 @@ public class frmReportesAdmin extends javax.swing.JFrame {
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
         // TODO add your handling code here:
-        // 1. Contadores
         int disponibles = 0;
         int vendidos = 0;
         int reservados = 0;
 
-        // 2. Recorrer la "Base de Datos" en memoria
         Object[] autos = Principal.gestorVehiculos.listar();
         int total = Principal.gestorVehiculos.cantidad();
 
@@ -115,7 +113,7 @@ public class frmReportesAdmin extends javax.swing.JFrame {
         }
 
         // 3. Imprimir en el Área de Texto
-        txtResultado.setText(""); // Limpiar anterior
+        txtResultado.setText(""); 
         txtResultado.append("=== REPORTE DE STOCK DE VEHÍCULOS ===\n\n");
         txtResultado.append("Total de Vehículos: " + total + "\n");
         txtResultado.append("-----------------------------------\n");
@@ -127,37 +125,30 @@ public class frmReportesAdmin extends javax.swing.JFrame {
 
     private void btnIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosActionPerformed
         // 1. Variables acumuladoras
-        double totalPagadoReal = 0;     // Dinero que ya entró a caja
-        double totalPorCobrar = 0;      // Dinero que nos deben (crédito)
-        double ventaTotalTeorica = 0;   // La suma de precios de venta
+        double totalPagadoReal = 0;     
+        double totalPorCobrar = 0;      
+        double ventaTotalTeorica = 0;   
 
-        // 2. Limpiar y encabezado
         txtResultado.setText("");
         txtResultado.append("=== REPORTE DETALLADO DE INGRESOS Y CRÉDITOS ===\n\n");
         txtResultado.append(String.format("%-30s %-15s %-15s\n", "VEHÍCULO", "PAGADO", "PENDIENTE"));
         txtResultado.append("------------------------------------------------------------\n");
 
-        // 3. Traer datos
         Object[] ventas = Principal.gestorVentas.listar();
         int cantidad = Principal.gestorVentas.cantidad();
 
-        // 4. Recorrer cada venta
         for (int i = 0; i < cantidad; i++) {
             clases.Venta v = (clases.Venta) ventas[i];
 
-            // Obtenemos los montos individuales
             double precioFinal = v.getCotizacion().getMontoTotal();
             double deuda = v.getSaldoPendiente();
-            double pagado = precioFinal - deuda; // Lo que ya pagó
+            double pagado = precioFinal - deuda; 
 
-            // Sumamos a los totales generales
             totalPagadoReal += pagado;
             totalPorCobrar += deuda;
             ventaTotalTeorica += precioFinal;
 
-            // Mostramos el detalle por carro
             String nombreAuto = v.getCotizacion().getVehiculo().getModelo();
-            // Si el nombre es muy largo, lo cortamos para que se vea ordenado
             if (nombreAuto.length() > 25) {
                 nombreAuto = nombreAuto.substring(0, 25);
             }
@@ -166,7 +157,6 @@ public class frmReportesAdmin extends javax.swing.JFrame {
                     nombreAuto, pagado, deuda));
         }
 
-        // 5. Mostrar Resumen Final
         txtResultado.append("------------------------------------------------------------\n");
         txtResultado.append("RESUMEN FINANCIERO:\n");
         txtResultado.append(" (+) INGRESOS REALES (Caja):    S/ " + String.format("%.2f", totalPagadoReal) + "\n");

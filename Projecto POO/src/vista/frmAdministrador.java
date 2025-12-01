@@ -121,7 +121,7 @@ public class frmAdministrador extends javax.swing.JFrame {
         // TODO add your handling code here:                                        
     frmLogin login = new frmLogin();
     login.setVisible(true);
-    this.dispose(); // Cerramos el menú
+    this.dispose(); 
     }//GEN-LAST:event_mitSalirActionPerformed
 
     private void mitEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitEmpleadosActionPerformed
